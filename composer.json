@@ -1,0 +1,15 @@
+{
+    "authors": [
+        {
+            "name" : "samarjeet kumar",
+            "email" : "kumarsamarjeet1@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\" : "app/",
+            "Core\\": "core/"
+        },
+        "files": ["app/helper.php"]
+    }
+}
