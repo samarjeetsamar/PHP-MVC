@@ -2,7 +2,7 @@
 
 namespace Routes\Web;
 
-use Core\Route;
+use Core\Router;
 
 
 class Web {

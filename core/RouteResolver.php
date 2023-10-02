@@ -2,6 +2,7 @@
 
 namespace Core;
 use ReflectionMethod;
+use Exception;
 
 class RouteResolver {
     private $routes;
@@ -26,11 +27,11 @@ class RouteResolver {
             }
 
             // Invoke controller method with dependencies
-            call_user_func_array([$controller, $methodName], $dependencies);
-
             
-
+            call_user_func_array([$controller, $methodName], $dependencies);
         } else {
+            
+            throw new Exception('Route not found!!');
             // Handle not found
         }
     }
