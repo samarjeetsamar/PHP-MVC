@@ -1,14 +1,23 @@
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 
-use App\Models\User;
+use Core\Route;
+use Core\RouteResolver;
+use Core\ServiceContainer;
 
 
-$user = new User();
+Route::addRoute('about', 'AboutController@index');
+Route::dispatch('about');
 
-$data = $user->getAllUsers();
+$routes = [
+    '/index' => 'App\Controllers\HomeController@index',
+    '/about' => 'App\Controllers\AboutController@index',
+];
 
-showResult($data);
+$route = $_SERVER['REQUEST_URI'];
+$routeResolver = new RouteResolver($routes, new ServiceContainer());
+$routeResolver->handleRoute($route);
+
 
 
 

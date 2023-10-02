@@ -19,6 +19,8 @@ class Model extends DBConnection {
         $this->connection = $dbconnection->getConnection();
     }
 
+    
+
     public function table($table) {
         $this->table = $table;
         return $this;
