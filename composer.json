@@ -11,5 +11,8 @@
             "Core\\": "core/"
         },
         "files": ["app/helper.php"]
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
     }
 }

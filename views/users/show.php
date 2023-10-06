@@ -10,25 +10,21 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1> All Users </h1>
+                <h1> User Details </h1>
                 <div class="table-responsive">
                     <table class="table table-primary">
                         <thead>
                             <tr>
-                                <th scope="col">SR. NO.</th>
                                 <th scope="col">USERNAME</th>
                                 <th scope="col">EMAIL</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(isset($data) && count($data)  > 0 ) : ?> 
-                            <?php foreach($data as $key => $val) : ?>
+                            <?php if(isset($data) ) : ?> 
                                 <tr class="">
-                                    <td scope="row"><?= $key+1; ?></td>
-                                    <td> <?=  $val['username']; ?> </td>
-                                    <td><?= $val['email']; ?></td>
+                                    <td> <?=  $data->username; ?> </td>
+                                    <td><?= $data->email; ?></td>
                                 </tr>
-                                <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
                     </table>

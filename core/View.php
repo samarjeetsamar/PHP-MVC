@@ -16,31 +16,11 @@ class View
     public static function render($view, $data = [])
     {
 
+        if(isset($data) && is_array($data)){
+            extract($data);
+        }
+        ob_get_clean();
+        require_once $view;
         
-        extract($data);
-       
-       // ob_start();
-        include $view;
-        //return ob_get_clean();
     }
-
-    // public function with($key, $value = null)
-    // {
-    //     if (is_array($key)) {
-    //         $this->data = array_merge($this->data, $key);
-    //     } else {
-    //         $this->data[$key] = $value;
-    //     }
-    //     return $this;
-    // }
-
-    // public function getPath()
-    // {
-    //     return $this->viewPath;
-    // }
-
-    // public function getData()
-    // {
-    //     return $this->data;
-    // }
 }

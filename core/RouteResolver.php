@@ -13,26 +13,41 @@ class RouteResolver {
         $this->container = $container;
     }
 
-    public function handleRoute($route) {
-        if (isset($this->routes[$route])) {
-            [$controllerName, $methodName] = explode('@', $this->routes[$route]);
-            $controller = $this->container->resolve($controllerName);
+    public function handleRoute($requestMethod, $requestUri) {
+        foreach($this->routes[$requestMethod] as $route => $action) {
+            $routePattern =  $this->routeToPattern($route);
+            if(preg_match($routePattern, $requestUri, $matches)) { 
+                [$controllerName, $methodName] = explode('@', $action);
+                $controller = $this->container->resolve($controllerName);
 
-            // Inject dependencies
-            $reflection = new ReflectionMethod($controllerName, $methodName);
-            $parameters = $reflection->getParameters();
-            $dependencies = [];
-            foreach ($parameters as $parameter) {
-                $dependencies[] = $this->container->resolve($parameter->getType()->getName());
+                $reflection = new ReflectionMethod($controllerName, $methodName);
+                $parameters = $reflection->getParameters();
+                $dependencies = [];
+                $args = [];
+
+                foreach ($parameters as $key => $parameter) {
+                    $paramName = $parameter->getName();
+                    if (isset($paramName)) {
+                        $args[$paramName] = $matches[++$key];
+                    } else {
+                        $args[] = null; 
+                    }
+                }
+                call_user_func_array([$controller, $methodName], $args);
+                return;
             }
-
-            // Invoke controller method with dependencies
-            
-            call_user_func_array([$controller, $methodName], $dependencies);
-        } else {
-            
-            throw new Exception('Route not found!!');
-            // Handle not found
         }
+
+        throw new Exception ('Route Not Found!!');
+    }
+
+    private function routeToPattern($route) {
+        
+        $routePattern = preg_replace_callback('/\{(\w+)\}/', function ($matches) {
+            return '(\d+)';
+        }, $route);
+    
+        $routePattern = '#^' . $routePattern . '$#';
+        return $routePattern;
     }
 }

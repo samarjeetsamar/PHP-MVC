@@ -1,0 +1,57 @@
+<?php 
+
+namespace Core;
+use ReflectionMethod;
+use Exception;
+
+class RouteResolver {
+    private $routes;
+    private $container;
+
+    public function __construct($routes, $container) {
+        $this->routes = $routes;
+        $this->container = $container;
+    }
+
+    public function handleRoute($route, $requestMethod ) {
+        
+
+        if (isset($this->routes[$requestMethod][$route])) {
+
+            [$controllerName, $methodName] = explode('@', $this->routes[$requestMethod][$route]);
+            $controller = $this->container->resolve($controllerName);
+
+            // Inject dependencies
+            $reflection = new ReflectionMethod($controllerName, $methodName);
+            $parameters = $reflection->getParameters();
+
+            $dependencies = [];
+            foreach ($parameters as $parameter) {
+               
+                if ($parameter->getType() !== null) {
+                    // Check if the parameter name exists in the route parameters
+                    $paramName = $parameter->getName();
+                    if (isset($routeParams[$paramName])) {
+                        // Use the value from the route parameters if available
+                        $dependencies[] = $routeParams[$paramName];
+                    } else {
+                        // Otherwise, resolve the dependency as usual
+                        $dependencies[] = $this->container->resolve($parameter->getType()->getName());
+                    }
+                }
+            }
+            
+
+          
+
+
+
+
+            call_user_func_array([$controller, $methodName], $dependencies);
+        } else {
+            
+            throw new Exception('Route not found!!');
+            // Handle not found
+        }
+    }
+}
