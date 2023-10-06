@@ -10,7 +10,11 @@ class HomeController  {
         $user = new User();
         $data = $user->getAllUsers();
 
+        
+
         View::render('views/index.php', ['data' => $data]);
+
+        
         //return View::render('index.php', $data);
         //return 'hi i am from index of HomeController';
     }

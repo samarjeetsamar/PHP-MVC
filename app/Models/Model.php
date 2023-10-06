@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Core\DBConnection;
 use PDO;
+
 class Model extends DBConnection {
 
     protected $connection;
@@ -49,6 +50,23 @@ class Model extends DBConnection {
         return $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function first() {
+        $sql = "SELECT {$this->columns} FROM {$this->table}";
+        if(!empty($this->conditions)){
+            $whereClause = implode(' AND ', $this->conditions);
+            $sql .= " WHERE {$whereClause}";
+        }
+
+        $stmt = $this->connection->prepare($sql);
+        for($i = 0; $i < count($this->values); $i++){
+            $stmt->bindValue($i+1, $this->values[$i]);
+        }
+        $this->sqlStatement = $sql;
+        $stmt->execute();
+        return  $stmt->fetch(PDO::FETCH_OBJ);
+
+    }
+
     public function delete(){
         $sql = "DELETE FROM {$this->table}";
         if(!empty($this->conditions)){
@@ -74,6 +92,28 @@ class Model extends DBConnection {
 
     public function sql() {
         return $this->sqlStatement;
+    }
+
+    public function insert(array $data){
+        $this->columns =  implode(', ', array_keys($data));
+        $this->values = implode(', ', array_values($data));
+
+        $placeholders = [];
+        foreach ($data as $key => $value) {
+            $placeholders[":$key"] = $value;
+        }
+        $params = implode(', ', array_keys($placeholders));
+        $sql = "INSERT INTO {$this->table} ($this->columns) values($params)";
+       
+        $stmt = $this->connection->prepare($sql);
+        
+        $stmt->execute($placeholders);
+        if($stmt->rowCount() > 0){
+            return true;
+        }else{
+            return false;
+        }
+       
     }
 
 
