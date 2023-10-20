@@ -24,7 +24,6 @@ class Request {
 
     public function all(){
         return array_merge($this->input, $this->query);
-
     }
 
     public function query($key, $default = null){
@@ -46,6 +45,16 @@ class Request {
     public function file($key){
         return isset($this->files[$key]) ? $this->files[$key] : null;
     }
+
+    public function requestMethod(){
+        return isset($this->method) ? $this->method : null;
+    }
+
+    public function isPost() {
+        return (isset($this->method) &&  $this->method = "POST") ? true : false; ;
+    }
+
+    
 
     
 }

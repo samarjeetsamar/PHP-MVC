@@ -3,8 +3,14 @@
 namespace App\Controllers;
 use App\Models\User;
 use Core\View;
-use Core\Request;
-class UserController {
+use Core\Session;
+use Core\Validator;
+use App\Controllers\Controller;
+
+
+class UserController extends Controller {
+
+
 
     public function index(){
         View::render('views/users/create.php');
@@ -27,24 +33,36 @@ class UserController {
         View::render('views/users/index.php', $users);
     }
 
-    public function store(Request $request){
-        $userName = rtrim($request->all()['email'], '@');
-        $data = $request->all();
-        $data['username'] = $userName;
+    public function store(){
+        
+        $data = $this->request->all();
         unset($data['url']);
+
+        $errors = Validator::validate($data, [
+            'username' => 'required|min:5',
+            'email' => 'required',
+            'password' => 'required|min:8'
+        ]);
+
+        if(count($errors) > 0){
+            redirectBackWithErrors($errors);
+        }
+
         $user = new User;
         $resp = $user->addUser($data);
+
         if($resp) {
-            $_SESSION['flash_message'] = 'Data inserted successfully.';
+            Session::flash('success', 'Data inserted successfully!');
         }else{
-            $_SESSION['flash_message'] = 'Error while inserting data!';
+            Session::flash('error', 'Error while inserting data!');
         }
+        return redirectBack();
     }
 
     public function edit($id){
 
         $user = new User;
-        $data = $user->select(['username', 'email'])->where('id', '=', $id)->first();
+        $data = $user->select(['id', 'username', 'email'])->where('id', '=', $id)->first();
         if(!$data) {
             die('User Not Found!');
         }
@@ -57,7 +75,34 @@ class UserController {
     }
 
     public function showUserByUserName($userName) {
-        echo $userName;
         
+        
+    }
+
+    public function delete($id){    
+        $user = new User;
+        try {
+            $user = $user->deleteUser($id);
+            if($user) {
+                $msg = 'User Deleted successfully!';
+                redirectWithSuccessMsg($msg);
+            }
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
+
+        return redirectBack();
+
+    }
+
+    public function update($id){
+        $data = $this->request->all();
+        $user  = new User;
+        $updated = $user->updateUser($data, $id);
+        if($updated){
+            redirectWithSuccessMsg('User Recored Updated Successfully!');
+        }else {
+            redirectBackWithErrors(['error while updating user record!']);
+        }
     }
 }

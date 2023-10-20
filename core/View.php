@@ -19,7 +19,7 @@ class View
         if(isset($data) && is_array($data)){
             extract($data);
         }
-        ob_get_clean();
+        //ob_get_clean();
         require_once $view;
         
     }

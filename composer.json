@@ -10,7 +10,7 @@
             "App\\" : "app/",
             "Core\\": "core/"
         },
-        "files": ["app/helper.php"]
+        "files": ["app/helper.php", "core/Helper.php"]
     },
     "require": {
         "vlucas/phpdotenv": "^5.5"
