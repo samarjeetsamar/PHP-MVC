@@ -38,7 +38,7 @@ class Model extends DBConnection {
 
         if(!empty($this->conditions)){
             $whereClause = implode(' AND ', $this->conditions);
-            $sql .= " WHERE {$whereClause}";
+            $sql .= " WHERE {$whereClause} ";
         }
        
         $stmt = $this->connection->prepare($sql);
@@ -68,6 +68,7 @@ class Model extends DBConnection {
     }
 
     public function delete(){
+       // $sql = '';
         $sql = "DELETE FROM {$this->table}";
         if(!empty($this->conditions)){
             $whereClause = implode(' AND ', $this->conditions);
@@ -79,6 +80,7 @@ class Model extends DBConnection {
         for($i = 0; $i < count($this->values); $i++){
             $stmt->bindValue($i+1, $this->values[$i]);
         }
+
         $this->sqlStatement = $sql;
         return $stmt->execute();
     }
@@ -116,5 +118,34 @@ class Model extends DBConnection {
        
     }
 
+    public function update($data, $id){
+
+        $setStatemet = '';
+        
+        foreach($data as $key => $val) {
+            $setStatemet .= "$key=?, ";
+        } 
+        $setStatemet = rtrim($setStatemet, ', ');
+        $data['id'] = $id;
+        $this->values = array_values($data); 
+        
+        $sql = "UPDATE {$this->table} SET " . $setStatemet;
+        
+        if(!empty($this->conditions)){
+            $whereClause = implode(' AND ', $this->conditions);
+            $sql .= " WHERE {$whereClause}";
+        }
+
+        $this->sqlStatement = $sql;
+        
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute($this->values);
+            return true;
+        } catch (PDOException $e) {
+            return false; // Handle the error as needed
+        }
+
+    }
 
 }

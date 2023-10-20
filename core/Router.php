@@ -1,28 +1,65 @@
 <?php
 namespace Core;
 
-use App\Controllers\HomeController;
+
 use Core\Request;
 use dotenv;
+
 class Router {
 
     public $baseURL;
  
     public $routes = [];
 
-    protected $namedRoutes = [];
+    public $namedRoutes = [];
 
-    public function name($name, $route) {
-        $this->namedRoutes[$name] = $route;
-        return $this; // Allow method chaining
-    }
+    private static $instance;
+
+    public $currentRoute;
 
     public function __construct(){
         $this->baseURL = $_ENV['BASE_URL'];
+        //$this->namedRoutes = ['addUser'=> '/user'];
     }
+
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new Router();
+        }
+        return self::$instance;
+    }
+
+    // public function name($route) {
+    //     $this->namedRoutes[$route] = $route;
+    //     return $this; // Allow method chaining
+    // }
+
+    public function name($name)
+    {
+        if (!empty($this->currentRoute)) {
+            // Map the route name to the current route pattern and method.
+            $this->namedRoutes[$name] = [
+                'method' => $this->currentRoute['method'],
+                'pattern' => $this->currentRoute['pattern'],
+            ];
+        }
+
+        return $this;
+    }
+
     
     public function addRoute($method, $pattern, $action) {
+
         $this->routes[$method][$pattern] = $action;
+
+        $this->currentRoute = [
+            'method' => $method,
+            'pattern' => $pattern,
+        ];
+        return $this;
+        // $this->routes[$method][$pattern][$name] = $name;
+        //return $this;
     }
 
     public function getAllRoutes(){
@@ -30,23 +67,23 @@ class Router {
     }
 
     public  function get($pattern, $action) {
-        $this->addRoute('GET', $pattern, $action);
+        return $this->addRoute('GET', $pattern, $action);
     }
 
     public  function post($pattern, $action) {
-        $this->addRoute('POST', $pattern, $action);
+        return $this->addRoute('POST', $pattern, $action);
     }
 
     public  function put($pattern, $action) {
-        $this->addRoute('PUT', $pattern, $action);
+        return $this->addRoute('PUT', $pattern, $action);
     }
 
     public  function patch($pattern, $action) {
-        $this->addRoute('PATCH', $pattern, $action);
+        return $this->addRoute('PATCH', $pattern, $action);
     }
 
     public  function delete($pattern, $action) {
-        $this->addRoute('DELETE', $pattern, $action);
+        return $this->addRoute("DELETE", $pattern, $action);
     }
 
 
@@ -99,23 +136,49 @@ class Router {
     }
 
     public function generateURL($name, $params = []) {
+
         if (isset($this->namedRoutes[$name])) {
-            $url = $this->namedRoutes[$name];
-            foreach ($params as $param => $value) {
-                $url = str_replace("{{$param}}", $value, $url);
-            }
-            return $url;
-        } else {
-            // If the route name is not found, check if it's a regular URL
-            foreach ($this->namedRoutes as $namedRoute) {
-                if ($namedRoute === $name) {
-                    return $name;
+            $pattern = $this->namedRoutes[$name]['pattern'];
+            $pattern = preg_replace_callback('/\{(\w+):(\w+)\}/', function ($matches) use (&$params) {
+                $paramName = $matches[1];
+                if (isset($params[$paramName])) {
+                    $paramValue = $params[$paramName];
+                    unset($params[$paramName]); // Remove the processed parameter.
+                    return $paramValue;
                 }
-            }
+                return '';
+            }, $pattern);
+            $pattern .=  implode('/', $params);
+
+            return $pattern;
+        } else {
+            // Handle the case where the route name is not found.
+            echo "Route Not found";
+            exit;
         }
-        return ''; // Handle invalid route names or URLs
     }
 
+    protected function routeToPattern($route) {
 
+        $routePattern = preg_replace_callback('/\{(\w+):(\w+)\}/', function ($matches) {
+            $paramName = $matches[1];
+            $paramType = $matches[2];
 
+            switch ($paramType) {
+                case 'int':
+                    return '(\d+)';
+                case 'string':
+                    return '([a-zA-Z]+)'; 
+                default:
+                    return '(\w+)'; 
+            }
+        }, $route);
+
+        $routePattern = '#^' . $routePattern . '$#';
+        return $routePattern;
+    }
+
+    public function getPattern($param){
+        return "/{{$param}:(\w+)}/";
+    }
 }

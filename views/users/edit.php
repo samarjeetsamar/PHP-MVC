@@ -1,27 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Users</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-</head>
-<body>
+<?php
+include_once 'views/partials/header.php'; 
+?>
+
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-4 offset-4">
+
+                <?php 
+                if (isset($_SESSION['success'])) {
+                    echo '<div class="alert alert-warning alert-dismissible fade show">'. $_SESSION['success'] . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </div>';
+                    unset($_SESSION['success']);
+                }
+
+                ?>
+
                 <h3> Update User Details </h3>
-                <form method="PUT" action="">
+                <form method="POST" action="<?= route('user.update', ['id' =>$user->id]); ?>">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">UserName</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?= $user->username; ?>">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="username"  value="<?= $user->username; ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label >Email</label>
+                        <input type="email" class="form-control" name="email" value="<?= $user->email; ?>">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
     </div>
-    
-    
-</body>
-</html>
+<?php 
+include_once 'views/partials/footer.php';
+?>
