@@ -10,18 +10,12 @@ use Core\Session;
 
 class HomeController extends Controller {
 
-
     public function index(){
 
         $data = $this->request->all();
-
-
-
         $user = new User();
         $data = $user->getAllUsers();
         View::render('views/index.php', ['data' => $data]);
-        //return View::render('index.php', $data);
-        //return 'hi i am from index of HomeController';
     }
 
     public function getValidationForm(){
@@ -43,7 +37,19 @@ class HomeController extends Controller {
         if (count($errors) > 0) {
             redirectBackWithErrors($errors);
         } 
+    }
 
 
+    public function dashboard(){
+
+        if(session_status() !== PHP_SESSION_ACTIVE ){
+            session_start();
+        }
+        if(isset($_SESSION['user_id'])) {
+            View::render('views/dashboard.php');
+        }else {
+            $url = route('showLoginForm');
+            redirect($url);
+        }
     }
 }

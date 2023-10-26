@@ -22,6 +22,17 @@ $router->get('/', 'App\Controllers\HomeController@index')->name('home');
 $router->get('/form-validate', 'App\Controllers\HomeController@getValidationForm')->name('formValidate');
 $router->post('/form-validate-post', 'App\Controllers\HomeController@postValidationForm')->name('formValidatePost');
 
+//login route
+
+$router->get('/login', 'App\Controllers\Auth\LoginController@showLogin')->name('showLoginForm');
+$router->post('/login-user', 'App\Controllers\Auth\LoginController@login')->name('login');
+
+$router->post('/logout', 'App\Controllers\Auth\LoginController@logout')->name('logout');
+
+//dashboard
+
+$router->get('/dashboard', 'App\Controllers\HomeController@dashboard')->name('dashboard');
+
 $router->get('/user', 'App\Controllers\UserController@index')->name('User');
 $router->post('/user/store', 'App\Controllers\UserController@store')->name('add.User');
 

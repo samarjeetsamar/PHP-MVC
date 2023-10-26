@@ -55,8 +55,14 @@ class UserController extends Controller {
             Session::flash('success', 'Data inserted successfully!');
         }else{
             Session::flash('error', 'Error while inserting data!');
-        }
-        return redirectBack();
+        }   
+        
+        $url = route('User');
+        redirect($url);
+        // header('Location: http://localhost/learning/php/MVC/user');
+        // exit();
+
+        //return redirectBack();
     }
 
     public function edit($id){

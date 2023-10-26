@@ -43,4 +43,16 @@ class User extends Model {
         }
        
     }
+
+    public function authenticate($email, $password){
+
+        $user = $this->table($this->table)->where('email', '=', $email)->where('password', '=', $password)->first();
+
+        if($user){
+            return $user;
+        }else {
+            return false;
+        }
+        
+    }
 }

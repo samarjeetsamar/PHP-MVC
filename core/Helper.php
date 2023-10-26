@@ -19,6 +19,9 @@ function redirectBack() {
     if($preURL){
         header('Location: ' . $preURL);
         exit();
+    }else {
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit();
     }
 }
 
@@ -35,6 +38,27 @@ function redirectWithSuccessMsg(string $message){
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
 }
+
+function redirectToDashboard(){
+    
+    if(isset($_SESSION['user_id'])) {
+        header('Location: http://localhost/learning/php/MVC/dashboard');
+        exit;
+    }
+}
+
+function redirectWithErrorMsg( $msg){
+    session_start();
+    $_SESSION['resp'] = $msg;
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
+function redirect($url, $statusCode = 302) {
+    header('Location: ' . $url, true, $statusCode);
+    exit;
+}
+
 
 
    

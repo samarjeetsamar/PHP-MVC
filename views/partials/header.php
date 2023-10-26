@@ -1,5 +1,5 @@
 <?php 
-session_start(); 
+if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,6 +97,9 @@ session_start();
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?= route('users'); ?>">Users</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link" href="<?= route('showLoginForm'); ?>">Login</a>
 				</li>
 			</ul>
 			<div class="search-and-icons">
