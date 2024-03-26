@@ -15,10 +15,5 @@ class ContactController {
     public function submitForm(Request $request){
 
         print_r($request->all());
-
-       // echo $request->input('email');
-
-
-        
     }
 }

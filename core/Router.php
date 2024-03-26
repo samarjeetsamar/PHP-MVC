@@ -17,6 +17,8 @@ class Router {
 
     public $currentRoute;
 
+    public $middlewares = [];
+
     public function __construct(){
         $this->baseURL = $_ENV['BASE_URL'];
         //$this->namedRoutes = ['addUser'=> '/user'];
@@ -58,8 +60,7 @@ class Router {
             'pattern' => $pattern,
         ];
         return $this;
-        // $this->routes[$method][$pattern][$name] = $name;
-        //return $this;
+        
     }
 
     public function getAllRoutes(){
@@ -109,14 +110,12 @@ class Router {
     public  function getRouteParameters($requestUrl) {
         $routeParams = [];
 
+       
         if (isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
            
             foreach ($this->routes[$_SERVER['REQUEST_METHOD']] as $pattern => $action) {
                 // Convert {param} placeholders in pattern to regular expressions.
                 $pattern = preg_replace('/\{(\w+)\}/', '(?P<\$1>[^/]+)', $pattern);
-
-               
-
                 // Add delimiters and make it case-insensitive.
                 $pattern = '/^' . $pattern . 'i';
 
@@ -131,6 +130,8 @@ class Router {
                 }
             }
         }
+
+       
 
         return $routeParams;
     }
@@ -180,5 +181,13 @@ class Router {
 
     public function getPattern($param){
         return "/{{$param}:(\w+)}/";
+    }
+
+    
+
+    public function middleware($middlewareName) {
+        // Add middleware to the list
+        $this->middlewares[] = $middlewareName;
+        return $this;
     }
 }

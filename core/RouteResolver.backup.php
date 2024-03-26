@@ -16,34 +16,33 @@ class RouteResolver extends Router{
     }
 
     public function handleRoute($requestMethod, $requestUri) {
+
+        
+
         foreach($this->routes[$requestMethod] as $route => $action) {
             $routePattern =  $this->routeToPattern($route);
             if(preg_match($routePattern, $requestUri, $matches)) { 
-            
 
                 [$controllerName, $methodName] = explode('@', $action);
+
                 $controller = $this->container->resolve($controllerName);
 
                 $reflection = new ReflectionMethod($controllerName, $methodName);
                 $parameters = $reflection->getParameters();
                 $dependencies = [];
-                foreach ($parameters as $parameter) {
-               
-                if ($parameter->getType() !== null) {
-                    // Check if the parameter name exists in the route parameters
+                $args = [];
+                array_shift($matches);
+
+                foreach ($parameters as $key => $parameter) {
                     $paramName = $parameter->getName();
-                    if (isset($routeParams[$paramName])) {
-                        // Use the value from the route parameters if available
-                        $dependencies[] = $routeParams[$paramName];
+                    if (isset($paramName)) {
+                        $args[$paramName] = $matches[$key];
                     } else {
-                        // Otherwise, resolve the dependency as usual
-                        $dependencies[] = $this->container->resolve($parameter->getType()->getName());
+                        $args[] = null; 
                     }
                 }
-            }
-                
-            call_user_func_array([$controller, $methodName], $dependencies);
-            return;
+                call_user_func_array([$controller, $methodName], $args);
+                return;
             }
         }
 

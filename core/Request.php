@@ -8,6 +8,7 @@ class Request {
     protected $files = [];
     protected $methods = [];
     protected $url = '';
+    protected $method;
 
     public function __construct(){
         $this->input = $_POST;
@@ -52,9 +53,5 @@ class Request {
 
     public function isPost() {
         return (isset($this->method) &&  $this->method = "POST") ? true : false; ;
-    }
-
-    
-
-    
+    }    
 }

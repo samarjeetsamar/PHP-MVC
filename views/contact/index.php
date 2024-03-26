@@ -12,8 +12,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <form method="POST" action="<?php echo route('AddContactForm'); ?>">
+            <div class="col-md-6 offset-3">
+                <form method="POST" action="<?= route('AddContactForm'); ?>">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">

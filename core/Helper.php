@@ -42,7 +42,7 @@ function redirectWithSuccessMsg(string $message){
 function redirectToDashboard(){
     
     if(isset($_SESSION['user_id'])) {
-        header('Location: http://localhost/learning/php/MVC/dashboard');
+        header('Location: '.$_SERVER['BASE_URL'].'/dashboard');
         exit;
     }
 }

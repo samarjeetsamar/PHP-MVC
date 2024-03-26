@@ -6,6 +6,7 @@ use Core\View;
 use Core\Session;
 use Core\Validator;
 use App\Controllers\Controller;
+use Core\Request;
 
 
 class UserController extends Controller {
@@ -67,17 +68,22 @@ class UserController extends Controller {
 
     public function edit($id){
 
+
         $user = new User;
         $data = $user->select(['id', 'username', 'email'])->where('id', '=', $id)->first();
+        
         if(!$data) {
             die('User Not Found!');
         }
         $user = ['user' => $data];
+        
         View::render('views/users/edit.php', $user);
     }
 
     public function editWP($id, $uid){
         
+        //print_r($request);
+
     }
 
     public function showUserByUserName($userName) {
@@ -93,8 +99,8 @@ class UserController extends Controller {
                 $msg = 'User Deleted successfully!';
                 redirectWithSuccessMsg($msg);
             }
-        }catch(Exception $e){
-            echo $e->getMessage();
+        }catch(\Exception $e){
+            return $e->getMessage();
         }
 
         return redirectBack();
@@ -103,8 +109,19 @@ class UserController extends Controller {
 
     public function update($id){
         $data = $this->request->all();
+
+        $errors = Validator::validate($data, [
+            'username' => 'required|min:5',
+            'email' => 'required',
+        ]);
+
+        if(count($errors) > 0){
+            redirectBackWithErrors($errors);
+        }
+
         $user  = new User;
         $updated = $user->updateUser($data, $id);
+        
         if($updated){
             redirectWithSuccessMsg('User Recored Updated Successfully!');
         }else {

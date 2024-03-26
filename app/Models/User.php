@@ -2,6 +2,8 @@
 namespace App\Models;
 
 use App\Models\Model;
+use Core\Validator;
+
 //use PDO;
 
 class User extends Model {
@@ -34,12 +36,11 @@ class User extends Model {
     public function updateUser($data, $id) {
 
         unset($data['url']);
-
         try {
             $resp = $this->table($this->table)->where('id', '=' ,$id)->update($data, $id);
             return $resp;
         }catch(\Exception $e){
-            echo $e->getMessage();
+            return $e->getMessage();
         }
        
     }

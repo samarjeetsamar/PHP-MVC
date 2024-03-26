@@ -39,6 +39,5 @@ include_once 'views/partials/header.php';
             </div>
         </div>
     </div>
-    
 <?php 
 include_once 'views/partials/footer.php';

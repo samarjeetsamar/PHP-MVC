@@ -142,7 +142,7 @@ class Model extends DBConnection {
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($this->values);
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             return false; // Handle the error as needed
         }
 

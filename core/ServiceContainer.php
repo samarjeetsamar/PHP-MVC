@@ -5,6 +5,8 @@ use Core\Request;
 
 class ServiceContainer {
 
+    
+
     public function resolve($className) {
         // Implement class instantiation and dependency resolution here
         if ($className === 'Request') {
