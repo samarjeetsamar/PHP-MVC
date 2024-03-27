@@ -18,6 +18,7 @@ class Model extends DBConnection {
     public function __construct(){
         $dbconnection = new DBConnection();
         $this->connection = $dbconnection->getConnection();
+        // $this->values = array_flatten($this->values);
     }
 
     
@@ -58,6 +59,8 @@ class Model extends DBConnection {
         }
 
         $stmt = $this->connection->prepare($sql);
+        $this->values = array_flatten($this->values);
+        
         for($i = 0; $i < count($this->values); $i++){
             $stmt->bindValue($i+1, $this->values[$i]);
         }
@@ -76,6 +79,8 @@ class Model extends DBConnection {
         }
 
         $stmt = $this->connection->prepare($sql);
+
+        $this->values = array_flatten($this->values);
        
         for($i = 0; $i < count($this->values); $i++){
             $stmt->bindValue($i+1, $this->values[$i]);
@@ -127,7 +132,7 @@ class Model extends DBConnection {
         } 
         $setStatemet = rtrim($setStatemet, ', ');
         $data['id'] = $id;
-        $this->values = array_values($data); 
+        $this->values = array_flatten(array_values($data)); 
         
         $sql = "UPDATE {$this->table} SET " . $setStatemet;
         

@@ -21,13 +21,13 @@ class Logincontroller extends Controller {
     }
 
 
-    public function login(){
+    public function login(Request $request){
 
         if (isset($_SESSION['user_id'])) {
             redirectToDashboard();
         }
 
-        $data = $this->request->all();
+        $data = $request->all();
         $email = $data['email'];
         $password = $data['password'];
 

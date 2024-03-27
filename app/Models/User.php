@@ -24,7 +24,7 @@ class User extends Model {
         return $resp;
     }
 
-    public function addUser($data){
+    public  function create($data){
         try {
             $resp = $this->table($this->table)->insert($data);
             return $resp;
@@ -32,6 +32,7 @@ class User extends Model {
             echo $e->getMessage();
         }
     }
+    
 
     public function updateUser($data, $id) {
 
@@ -46,12 +47,12 @@ class User extends Model {
     }
 
     public function authenticate($email, $password){
-
-        $user = $this->table($this->table)->where('email', '=', $email)->where('password', '=', $password)->first();
-
-        if($user){
+        $user = $this->table($this->table)->where('email', '=', $email)->first();
+        $hashedPassword = $user->password;;
+        
+        if($user && password_verify($password, $hashedPassword)) {
             return $user;
-        }else {
+        }else{
             return false;
         }
         

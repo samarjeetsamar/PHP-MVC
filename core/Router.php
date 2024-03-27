@@ -32,10 +32,7 @@ class Router {
         return self::$instance;
     }
 
-    // public function name($route) {
-    //     $this->namedRoutes[$route] = $route;
-    //     return $this; // Allow method chaining
-    // }
+    
 
     public function name($name)
     {
@@ -184,6 +181,9 @@ class Router {
     }
 
     
+
+   
+
 
     public function middleware($middlewareName) {
         // Add middleware to the list

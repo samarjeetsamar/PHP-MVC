@@ -5,7 +5,7 @@ use PDO;
 
 class DBConnection {
 
-    private $host = "localhost";
+    private $host =  "localhost";
     private $username = "root";
     private $password = "password";
     private $dbname = "learn_mvc";

@@ -34,39 +34,7 @@ class UserController extends Controller {
         View::render('views/users/index.php', $users);
     }
 
-    public function store(){
-        
-        $data = $this->request->all();
-        unset($data['url']);
-
-        $errors = Validator::validate($data, [
-            'username' => 'required|min:5',
-            'email' => 'required',
-            'password' => 'required|min:8'
-        ]);
-
-        if(count($errors) > 0){
-            redirectBackWithErrors($errors);
-        }
-
-        $user = new User;
-        $resp = $user->addUser($data);
-
-        if($resp) {
-            Session::flash('success', 'Data inserted successfully!');
-        }else{
-            Session::flash('error', 'Error while inserting data!');
-        }   
-        
-        $url = route('User');
-        redirect($url);
-        // header('Location: http://localhost/learning/php/MVC/user');
-        // exit();
-
-        //return redirectBack();
-    }
-
-    public function edit($id){
+    public function edit( $id){
 
 
         $user = new User;
@@ -80,8 +48,14 @@ class UserController extends Controller {
         View::render('views/users/edit.php', $user);
     }
 
-    public function editWP($id, $uid){
+    public function editWP(Request $request, $id, $uid){
         
+        print_r($request->all());
+        print_r($id);
+        print_r($uid) ;
+
+        echo $id;
+        echo $uid;
         //print_r($request);
 
     }
@@ -107,8 +81,9 @@ class UserController extends Controller {
 
     }
 
-    public function update($id){
-        $data = $this->request->all();
+    public function update(Request $request, $id){
+        $data = $request->all();
+        //die;
 
         $errors = Validator::validate($data, [
             'username' => 'required|min:5',

@@ -31,7 +31,7 @@ include_once 'views/partials/header.php';
             ?>
 
             
-            <form method="POST" action="<?php echo route('add.User'); ?>">
+            <form method="POST" action="<?= route('create.user'); ?>">
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" aria-describedby="name" name="username">
@@ -49,6 +49,10 @@ include_once 'views/partials/header.php';
             </form>
         </div>
     </div>
+</div>
+
+<div class="toast" role="alert" aria-live="polite" aria-atomic="true" data-delay="10000">
+  <div role="alert" aria-live="assertive" aria-atomic="true">...</div>
 </div>
 
 <?php 

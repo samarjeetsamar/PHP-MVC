@@ -6,10 +6,7 @@ class Auth {
     public function handle($request, $next) {
         // Check if user is authenticated
         if (!$this->isAuthenticated()) {
-            // Redirect to login page or show unauthorized error
-            // Example: redirect('/login');
-            // Example: showUnauthorizedError();
-            //return 'Not authenticated!';
+            
             redirect(route('showLoginForm'));
         }
 
