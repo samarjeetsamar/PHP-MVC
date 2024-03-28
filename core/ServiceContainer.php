@@ -21,8 +21,6 @@ class ServiceContainer {
         throw new \Exception("Service '$name' not found in the container.");
     }
 
-    
-    
 
     // public function resolve($className) {
     //     // Implement class instantiation and dependency resolution here

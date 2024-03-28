@@ -12,7 +12,6 @@ class Logincontroller extends Controller {
     private $isAuthenticated  = false; 
 
     public function __construct(){
-        parent::__construct();
         //$this->isAuthenticated = true;
     }    
 
@@ -37,10 +36,8 @@ class Logincontroller extends Controller {
             $rememberToken = $data['rememberme_token'];
         }
 
-        
         $user =  new User;
         $userresp = $user->authenticate($email, $password);
-        
 
         if($userresp){
             session_start();

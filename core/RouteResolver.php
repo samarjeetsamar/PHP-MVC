@@ -5,6 +5,7 @@ use Exception;
 
 use Core\Router;
 use App\Exceptions\NotFoundException;
+use App\Middleware\AuthMiddleware;
 
 class RouteResolver extends Router{
     public $routes;
@@ -18,8 +19,10 @@ class RouteResolver extends Router{
 
     public function handleRoute($requestMethod, $requestUri) {
 
+
         
 
+         
         foreach($this->routes[$requestMethod] as $route => $action) {
             $routePattern =  $this->routeToPattern($route);
             
@@ -66,6 +69,6 @@ class RouteResolver extends Router{
             }
         }
 
-        throw new NotFoundException('Route Not Found');
+        
     }
 }

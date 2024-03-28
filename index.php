@@ -18,12 +18,12 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $router =  Router::getInstance();
-$authMiddleware = new Auth();
+
 
 
 //Login route
 $router->post('/user/create', 'App\Controllers\Auth\RegisterController@create')->name('create.user');
-$router->get('/login', 'App\Controllers\Auth\LoginController@showLogin')->name('showLoginForm')->middleware('Auth');
+$router->get('/login', 'App\Controllers\Auth\LoginController@showLogin')->name('showLoginForm');
 $router->post('/login', 'App\Controllers\Auth\LoginController@login')->name('login');
 $router->post('/logout', 'App\Controllers\Auth\LoginController@logout')->name('logout');
 
@@ -33,8 +33,8 @@ $router->post('/form-validate-post', 'App\Controllers\HomeController@postValidat
 
 
 //dashboard
-$router->get('/dashboard', 'App\Controllers\HomeController@dashboard')->name('dashboard')->middleware('Auth');
-$router->middleware('AgeCheckMiddleware')->get('/user', 'App\Controllers\UserController@index')->name('User');
+$router->get('/dashboard', 'App\Controllers\HomeController@dashboard')->name('dashboard');
+$router->get('/user', 'App\Controllers\UserController@index')->name('User');
 $router->get('/user/{id:int}', 'App\Controllers\UserController@show')->name('show.user');
 $router->get('/user/{id:int}/edit', 'App\Controllers\UserController@edit')->name('user.edit');
 $router->post('/user/update/{id:int}', 'App\Controllers\UserController@update')->name('user.update');
@@ -66,6 +66,13 @@ $container = new ServiceContainer();
 $container->bind('Core\Request', function(){
     return new \Core\Request();
 });
+
+$container->bind('Auth', function(){
+    return new \App\Middleware\AuthMiddleware();
+});
+
+
+
 
 $routeResolver = new RouteResolver($routes, $container);
 $routeResolver->handleRoute($requestMethod, $routeURL);

@@ -1,18 +1,15 @@
 <?php 
 namespace App\Controllers;
+use Core\Validator;
 use Core\Request;
 use Core\View;
 use App\Models\User;
 
-use Core\Validator;
-use Core\Session;
-
-
 class HomeController extends Controller {
 
-    public function index(){
+    public function index(Request $request){
 
-        $data = $this->request->all();
+        $data = $request->all();
         $user = new User();
         $data = $user->getAllUsers();
         View::render('views/index.php', ['data' => $data]);
@@ -24,9 +21,9 @@ class HomeController extends Controller {
     }
 
 
-    public function postValidationForm(){
+    public function postValidationForm(Request $request){
 
-        $data = $this->request->all();
+        $data = $request->all();
         unset($data['url']);
 
         $errors = Validator::validate($data, [
@@ -42,14 +39,16 @@ class HomeController extends Controller {
 
     public function dashboard(){
 
-        if(session_status() !== PHP_SESSION_ACTIVE ){
-            session_start();
-        }
-        if(isset($_SESSION['user_id'])) {
-            View::render('views/dashboard.php');
-        }else {
-            $url = route('showLoginForm');
-            redirect($url);
-        }
+        View::render('views/dashboard.php');
+
+        // if(session_status() !== PHP_SESSION_ACTIVE ){
+        //     session_start();
+        // }
+        // if(isset($_SESSION['user_id'])) {
+        //     View::render('views/dashboard.php');
+        // }else {
+        //     $url = route('showLoginForm');
+        //     redirect($url);
+        // }
     }
 }

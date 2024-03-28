@@ -2,9 +2,6 @@
 namespace Core;
 
 
-use Core\Request;
-use dotenv;
-
 class Router {
 
     public $baseURL;
@@ -22,6 +19,13 @@ class Router {
     public function __construct(){
         $this->baseURL = $_ENV['BASE_URL'];
         //$this->namedRoutes = ['addUser'=> '/user'];
+    }
+
+    public function middleware($middlewareName) {
+        // Add middleware to the list
+        $this->middlewares[] = $middlewareName;
+        
+        return $this;
     }
 
     public static function getInstance()
@@ -180,14 +184,5 @@ class Router {
         return "/{{$param}:(\w+)}/";
     }
 
-    
-
    
-
-
-    public function middleware($middlewareName) {
-        // Add middleware to the list
-        $this->middlewares[] = $middlewareName;
-        return $this;
-    }
 }

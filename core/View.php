@@ -8,12 +8,12 @@ class View
     protected $data = [];
     protected $view = 'views/index.php';
 
-    public function __construct($view , $data = []) {
+    public function __construct($view , array $data = []) {
         $this->view = $view;
         $this->data = $data;
     }
 
-    public static function render($view, $data = [])
+    public static function render($view, array $data = [])
     {
 
         if(isset($data) && is_array($data)){

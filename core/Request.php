@@ -24,7 +24,7 @@ class Request {
     }
 
     public function all(){
-        return array_merge($this->input, $this->query);
+        return array_merge($this->input, $this->query, $this->files);
     }
 
     public function query($key, $default = null){
