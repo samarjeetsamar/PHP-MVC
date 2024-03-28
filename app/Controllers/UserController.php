@@ -37,6 +37,7 @@ class UserController extends Controller {
     public function edit( $id){
 
 
+
         $user = new User;
         $data = $user->select(['id', 'username', 'email'])->where('id', '=', $id)->first();
         
@@ -50,12 +51,8 @@ class UserController extends Controller {
 
     public function editWP(Request $request, $id, $uid){
         
-        print_r($request->all());
-        print_r($id);
-        print_r($uid) ;
-
-        echo $id;
-        echo $uid;
+        
+       
         //print_r($request);
 
     }

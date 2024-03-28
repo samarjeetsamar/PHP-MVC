@@ -20,9 +20,6 @@ class Model extends DBConnection {
     public function __construct(){
         $dbconnection = new DBConnection();
         $this->connection = $dbconnection->getConnection();
-        $this->data = [];
-   
-        // $this->values = array_flatten($this->values);
     }
 
     
