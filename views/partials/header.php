@@ -10,7 +10,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
     
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- //header css -->
     <style>
         .navbar {
@@ -92,14 +92,18 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 				<li class="nav-item">
 					<a class="nav-link active"  href="<?= route('home'); ?>">Home</a>
 				</li>
+				
 				<li class="nav-item">
-					<a class="nav-link" href="<?= route('User'); ?>">Add User</a>
+					<a class="nav-link " href="<?= route('users'); ?>">All Users</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="<?= route('users'); ?>">Users</a>
+                <li class="nav-item">
+					<a class="nav-link" href="<?= route('User'); ?>">Register</a>
 				</li>
                 <li class="nav-item">
 					<a class="nav-link" href="<?= route('showLoginForm'); ?>">Login</a>
+				</li>
+                <li class="nav-item">
+					<a class="nav-link <?php if($_SERVER['REQUEST_URI'] == '/dashboard') echo "btn-dark text-white"; ?>" href="<?= route('dashboard'); ?>">Dashboard</a>
 				</li>
 			</ul>
 			<div class="search-and-icons">

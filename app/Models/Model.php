@@ -15,9 +15,13 @@ class Model extends DBConnection {
 
     protected $sqlStatement = '';
 
+    private $data;
+
     public function __construct(){
         $dbconnection = new DBConnection();
         $this->connection = $dbconnection->getConnection();
+        $this->data = [];
+   
         // $this->values = array_flatten($this->values);
     }
 
@@ -48,7 +52,9 @@ class Model extends DBConnection {
         }
         $this->sqlStatement = $sql;
         $stmt->execute();
-        return $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $results;
     }
 
     public function first() {
@@ -66,7 +72,9 @@ class Model extends DBConnection {
         }
         $this->sqlStatement = $sql;
         $stmt->execute();
-        return  $stmt->fetch(PDO::FETCH_OBJ);
+        $fetachData =  $stmt->fetch(PDO::FETCH_OBJ);
+        $this->data = $fetachData;
+        return $fetachData;
 
     }
 
@@ -151,6 +159,18 @@ class Model extends DBConnection {
             return false; // Handle the error as needed
         }
 
+    }
+
+    public function toArray(){
+        $array = [];
+        foreach ($this->data as $key => $value) {
+            if (is_object($value) && method_exists($value, 'toArray')) {
+                $array[$key] = $value->toArray();
+            } else {
+                $array[$key] = $value;
+            }
+        }
+        return $array;
     }
 
 }

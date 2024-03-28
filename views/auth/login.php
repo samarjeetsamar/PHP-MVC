@@ -28,7 +28,7 @@ include_once 'views\partials\header.php';
 
                 <!-- 2 column grid layout for inline styling -->
                 <div class="row mb-4">
-                    <div class="col d-flex justify-content-center">
+                    <div class="col d-flex">
                         <!-- Checkbox -->
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="1" id="form2Example31" name="rememberme_token" checked />
@@ -41,10 +41,12 @@ include_once 'views\partials\header.php';
                     </div>
                 </div>
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success btn-block mb-4 w-100">Sign in</button>
+                </div>
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Not a member? <a href="#!">Register</a></p>
+                    <p>Not a member? <a href="<?php echo route('register'); ?>"> Register</a></p>
                 </div>
             </form>
         </div>   

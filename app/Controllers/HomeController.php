@@ -39,6 +39,8 @@ class HomeController extends Controller {
 
     public function dashboard(){
 
+        
+
         View::render('views/dashboard.php');
 
         // if(session_status() !== PHP_SESSION_ACTIVE ){

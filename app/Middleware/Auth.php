@@ -1,14 +1,15 @@
 <?php
 namespace App\Middleware;
 
-class AuthMiddleware {
+class Auth {
 
     public function handle() {
+        session_start();
         if(!isset($_SESSION['user_id'])){
-
-            
-            header("location: /login");
+            header("location: ". route('showLoginForm'));
+            exit();
         }
+        
     }
 
 }

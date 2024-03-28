@@ -37,7 +37,7 @@ class RegisterController {
                 'remember_token' => $rememberToken
             ]);
 
-            Session::flash('success', 'Data inserted successfully!');
+            Session::flash('success', 'Your account has been created successfully! You can login to your account');
         }catch(\Exception $e){
             
             Session::flash('error', 'Error while inserting data!'. $e->getMessage());

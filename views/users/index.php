@@ -10,9 +10,9 @@ include_once 'views/partials/header.php';
                     unset($_SESSION['success']);
                 }
                 ?>
-                <h1> All Users </h1>
+                <h3 class="mb-5"> Users Registered in Website </h3>
                 <div class="">
-                    <table class="table table-primary table-sm">
+                    <table class="table table-primary">
                         <thead>
                             <tr>
                                 <th scope="col">SR. NO.</th>
@@ -28,7 +28,10 @@ include_once 'views/partials/header.php';
                                     <td scope="row"><?= $key+1; ?></td>
                                     <td> <?=  $val['username']; ?> </td>
                                     <td><?= $val['email']; ?></td>
-                                    <td> <a href="<?php echo route('user.edit', ['id'=> $val['id']]); ?>">Edit   </a> <a href="<?php echo route('user.delete', ['id'=> $val['id']]); ?> "> Delete </a> </td>
+                                    <td> 
+                                        <a class="btn btn-sm" href="<?php echo route('user.edit', ['id'=> $val['id']]); ?>"><i class="fas fa-edit"></i>   </a> 
+                                        
+                                        <a href="<?php echo route('user.delete', ['id'=> $val['id']]); ?> "> <i class="fa fa-trash text-danger" aria-hidden="true"></i> </a> </td>
                                     
                                 </tr>
                                 <?php endforeach; ?>

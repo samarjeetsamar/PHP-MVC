@@ -40,8 +40,12 @@ function redirectWithSuccessMsg(string $message){
 }
 
 function redirectToDashboard(){
+
     
-    if(isset($_SESSION['user_id'])) {
+    
+
+    if(isset($_SESSION['user'])) {
+        
         header('Location: '.$_SERVER['BASE_URL'].'/dashboard');
         exit;
     }

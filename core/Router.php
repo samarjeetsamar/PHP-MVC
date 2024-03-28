@@ -54,14 +54,25 @@ class Router {
     
     public function addRoute($method, $pattern, $action) {
 
-        $this->routes[$method][$pattern] = $action;
-
+        //$this->routes[$method][$pattern] = $action;
+        $this->routes[] = [
+            'method' => $method,
+            'pattern' => $pattern,
+            'action' => $action,
+            'middleware' => null
+        ];
+        
         $this->currentRoute = [
             'method' => $method,
             'pattern' => $pattern,
         ];
         return $this;
         
+    }
+
+    public function only($key){
+        $this->routes[array_key_last($this->routes)]['middleware'] = $key;
+        return $this;
     }
 
     public function getAllRoutes(){

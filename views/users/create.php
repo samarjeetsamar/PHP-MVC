@@ -3,8 +3,8 @@ include_once 'views/partials/header.php';
 ?>
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 offset-3">
-            <h1 class="text-center"> Add User Form </h1>
+        <div class="col-md-4 offset-4">
+            <h1 class="text-center mb-5"> Registration Form </h1>
 
             <?php if (isset($_SESSION['flash']['success'])) : ?>
                 <div class="alert alert-success" role="alert">  <?=  $_SESSION['flash']['success']; ?> </div>
@@ -31,9 +31,9 @@ include_once 'views/partials/header.php';
             ?>
 
             
-            <form method="POST" action="<?= route('create.user'); ?>">
+            <form method="POST" action="<?= route('register'); ?>">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                    <label for="name" class="form-label font-weight-bold">Name</label>
                     <input type="text" class="form-control" id="name" aria-describedby="name" name="username">
                 </div>
 
@@ -45,7 +45,9 @@ include_once 'views/partials/header.php';
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="password">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success mt-4 m-auto">Create Account</button>
+                </div>
             </form>
         </div>
     </div>

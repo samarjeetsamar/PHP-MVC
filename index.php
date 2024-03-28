@@ -22,8 +22,8 @@ $router =  Router::getInstance();
 
 
 //Login route
-$router->post('/user/create', 'App\Controllers\Auth\RegisterController@create')->name('create.user');
-$router->get('/login', 'App\Controllers\Auth\LoginController@showLogin')->name('showLoginForm');
+$router->post('/register', 'App\Controllers\Auth\RegisterController@create')->name('register');
+$router->get('/login', 'App\Controllers\Auth\LoginController@showLogin')->name('showLoginForm')->only('Guest');
 $router->post('/login', 'App\Controllers\Auth\LoginController@login')->name('login');
 $router->post('/logout', 'App\Controllers\Auth\LoginController@logout')->name('logout');
 
@@ -33,8 +33,8 @@ $router->post('/form-validate-post', 'App\Controllers\HomeController@postValidat
 
 
 //dashboard
-$router->get('/dashboard', 'App\Controllers\HomeController@dashboard')->name('dashboard');
-$router->get('/user', 'App\Controllers\UserController@index')->name('User');
+$router->get('/dashboard', 'App\Controllers\HomeController@dashboard')->name('dashboard')->only('Auth');
+$router->get('/register', 'App\Controllers\UserController@index')->name('User')->only('Guest');
 $router->get('/user/{id:int}', 'App\Controllers\UserController@show')->name('show.user');
 $router->get('/user/{id:int}/edit', 'App\Controllers\UserController@edit')->name('user.edit');
 $router->post('/user/update/{id:int}', 'App\Controllers\UserController@update')->name('user.update');
@@ -68,10 +68,11 @@ $container->bind('Core\Request', function(){
 });
 
 $container->bind('Auth', function(){
-    return new \App\Middleware\AuthMiddleware();
+    return new \App\Middleware\Auth();
 });
-
-
+$container->bind('Guest', function(){
+    return new \App\Middleware\Guest();
+});
 
 
 $routeResolver = new RouteResolver($routes, $container);

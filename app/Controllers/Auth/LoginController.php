@@ -22,10 +22,6 @@ class Logincontroller extends Controller {
 
     public function login(Request $request){
 
-        if (isset($_SESSION['user_id'])) {
-            redirectToDashboard();
-        }
-
         $data = $request->all();
         $email = $data['email'];
         $password = $data['password'];
@@ -37,15 +33,18 @@ class Logincontroller extends Controller {
         }
 
         $user =  new User;
-        $userresp = $user->authenticate($email, $password);
+        $userResp = $user->authenticate($email, $password);
 
-        if($userresp){
+        if($userResp){
+
             session_start();
-            $user_id = $userresp->id;
-            $_SESSION['is_authenticated'] = true;
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['username'] = $userresp->username;
-            redirectToDashboard();
+            $_SESSION['user'] =  $userResp;
+            $_SESSION['user_id'] =  $userResp->id;
+            
+            $dashboard = route('dashboard');
+            
+            redirect($dashboard);
+           // redirectToDashboard();
         }else {
             $error = 'Error while login !';
             redirectWithErrorMsg($error);
