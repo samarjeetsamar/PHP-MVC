@@ -4,6 +4,7 @@ namespace App\Models;
 use Core\DBConnection;
 use PDO;
 
+
 class Model extends DBConnection {
 
     protected $connection;
@@ -18,8 +19,7 @@ class Model extends DBConnection {
     private $data;
 
     public function __construct(){
-        $dbconnection = new DBConnection();
-        $this->connection = $dbconnection->getConnection();
+        $this->connection = DBConnection::getInstance()->getConnection();
     }
 
     
@@ -151,7 +151,7 @@ class Model extends DBConnection {
         try {
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($this->values);
-            return true;
+            return $stmt->rowCount();
         } catch (\PDOException $e) {
             return false; // Handle the error as needed
         }

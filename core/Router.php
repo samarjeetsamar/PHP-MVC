@@ -18,7 +18,6 @@ class Router {
 
     public function __construct(){
         $this->baseURL = $_ENV['BASE_URL'];
-        //$this->namedRoutes = ['addUser'=> '/user'];
     }
 
     public function middleware($middlewareName) {

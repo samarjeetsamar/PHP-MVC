@@ -12,12 +12,12 @@ class HomeController extends Controller {
         $data = $request->all();
         $user = new User();
         $data = $user->getAllUsers();
-        View::render('views/index.php', ['data' => $data]);
+        View::render('index.php', ['data' => $data]);
     }
 
     public function getValidationForm(){
 
-        View::render('views/form/index.php');
+        View::render('form/index.php');
     }
 
 
@@ -41,7 +41,7 @@ class HomeController extends Controller {
 
         
 
-        View::render('views/dashboard.php');
+        View::render('dashboard.php');
 
         // if(session_status() !== PHP_SESSION_ACTIVE ){
         //     session_start();

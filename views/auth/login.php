@@ -1,5 +1,5 @@
 <?php 
-include_once 'views\partials\header.php';
+include_once VIEW_BASE_PATH. 'partials/header.php';
 ?>
 
 <div class="container mt-5">
@@ -54,5 +54,5 @@ include_once 'views\partials\header.php';
 </div>
 
 <?php 
-include_once 'views\partials\footer.php';
+include_once VIEW_BASE_PATH. 'partials/footer.php';
 ?>

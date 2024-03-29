@@ -14,7 +14,7 @@ class UserController extends Controller {
 
 
     public function index(){
-        View::render('views/users/create.php');
+        View::render('users/create.php');
     }
 
     public function show($id) 
@@ -25,13 +25,13 @@ class UserController extends Controller {
             die('User Not Found!');
         }
          
-        View::render('views/users/show.php', $data);
+        View::render('users/show.php', $data);
     }
 
     public function allUsers(){
         $user = new User;
         $users =  $user->getAllUsers();
-        View::render('views/users/index.php', $users);
+        View::render('/users/index.php', $users);
     }
 
     public function edit( $id){
@@ -46,7 +46,7 @@ class UserController extends Controller {
         }
         $user = ['user' => $data];
         
-        View::render('views/users/edit.php', $user);
+        View::render('users/edit.php', $user);
     }
 
     public function editWP(Request $request, $id, $uid){

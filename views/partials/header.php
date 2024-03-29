@@ -89,17 +89,17 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link active"  href="<?= route('home'); ?>">Home</a>
+					<a class="nav-link <?php if($_SERVER['REQUEST_URI'] == '/') echo "btn-dark text-white"; ?>"  href="<?= route('home'); ?>">Home</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link " href="<?= route('users'); ?>">All Users</a>
+					<a class="nav-link <?php if($_SERVER['REQUEST_URI'] == '/users') echo "btn-dark text-white"; ?>" href="<?= route('users'); ?>">All Users</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="<?= route('User'); ?>">Register</a>
+					<a class="nav-link <?php if($_SERVER['REQUEST_URI'] == '/register') echo "btn-dark text-white"; ?>" href="<?= route('User'); ?>">Register</a>
 				</li>
                 <li class="nav-item">
-					<a class="nav-link" href="<?= route('showLoginForm'); ?>">Login</a>
+					<a class="nav-link <?php if($_SERVER['REQUEST_URI'] == '/login') echo "btn-dark text-white"; ?>" href="<?= route('showLoginForm'); ?>">Login</a>
 				</li>
                 <li class="nav-item">
 					<a class="nav-link <?php if($_SERVER['REQUEST_URI'] == '/dashboard') echo "btn-dark text-white"; ?>" href="<?= route('dashboard'); ?>">Dashboard</a>

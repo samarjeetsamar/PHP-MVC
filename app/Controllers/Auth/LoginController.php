@@ -16,7 +16,7 @@ class Logincontroller extends Controller {
     }    
 
     public function showLogin(){
-        View::render('views\auth\login.php');
+        View::render('auth/login.php');
     }
 
 

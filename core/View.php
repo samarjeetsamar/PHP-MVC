@@ -6,7 +6,7 @@ class View
 {
 
     protected $data = [];
-    protected $view = 'views/index.php';
+    protected $view = '/index.php';
 
     public function __construct($view , array $data = []) {
         $this->view = $view;
@@ -19,8 +19,9 @@ class View
         if(isset($data) && is_array($data)){
             extract($data);
         }
+
         //ob_get_clean();
-        require_once $view;
+        require_once VIEW_BASE_PATH . $view;
         
     }
 }

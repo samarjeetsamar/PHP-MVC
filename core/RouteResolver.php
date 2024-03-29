@@ -75,7 +75,7 @@ class RouteResolver extends Router{
 
             throw new NotFoundException('The page you are looking for could not be found', 404);
         }catch (NotFoundException $e) {
-            View::render('views/404.php', ['errorMsg' => $e->getMessage(), 'code' => $e->getCode()]);
+            View::render('404.php', ['errorMsg' => $e->getMessage(), 'code' => $e->getCode()]);
             exit;
         }
         

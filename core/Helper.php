@@ -41,8 +41,6 @@ function redirectWithSuccessMsg(string $message){
 
 function redirectToDashboard(){
 
-    
-    
 
     if(isset($_SESSION['user'])) {
         
