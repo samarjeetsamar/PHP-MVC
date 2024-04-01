@@ -3,6 +3,7 @@ namespace App\Controllers\Auth;
 
 use Core\Request;
 use App\Models\User;
+use Core\Redirect;
 use Core\Session;
 use Core\Validator;
 
@@ -14,22 +15,28 @@ class RegisterController {
 
         $errors = Validator::validate($data, [
             'username' => 'required|min:5',
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required|min:8'
         ]);
+
+        if(count($errors) > 0){
+            Redirect::back()->withErrors($errors);
+        }
+        
+        $user = new User;
+        $checkEmail = $user->where('email', '=', $data['email'])->first();
+        if($checkEmail) {
+            Session::flash('error', 'Email already exist!');
+            Redirect::back();
+        }
 
         $rememberToken = null;
 
         if(isset($data['remember_token'])) {
             $rememberToken = $data['remember_token']; 
         }
-
-        if(count($errors) > 0){
-            redirectBackWithErrors($errors);
-        }
        
         try{
-            $user = new User;
             $user->create([
                 'username' => $data['username'],
                 'email' => $data['email'],
@@ -42,8 +49,7 @@ class RegisterController {
             Session::flash('error', 'Error while inserting data!'. $e->getMessage());
         }
         
-        $url = route('User');
-        redirect($url);
+        Redirect::back();
 
     }
 }

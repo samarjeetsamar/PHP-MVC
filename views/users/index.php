@@ -5,10 +5,7 @@ include_once VIEW_BASE_PATH.'/partials/header.php';
         <div class="row">
             <div class="col-md-8 offset-2">
                 <?php 
-                if (isset($_SESSION['success'])) {
-                    echo '<div class="alert alert-warning alert-dismissible fade show">'. $_SESSION['success'] . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </div>';
-                    unset($_SESSION['success']);
-                }
+                include_once VIEW_BASE_PATH . '/response/success.php';
                 ?>
                 <h3 class="mb-5"> Users Registered in Website </h3>
                 <div class="">

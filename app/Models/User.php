@@ -37,6 +37,7 @@ class User extends Model {
     public function updateUser($data, $id) {
 
         unset($data['url']);
+        
         try {
             $resp = $this->table($this->table)->where('id', '=' ,$id)->update($data, $id);
             return $resp;

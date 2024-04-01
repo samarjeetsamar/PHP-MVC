@@ -1,13 +1,18 @@
 <?php
 namespace App\Middleware;
 
+use Core\Redirect;
+
 class Guest {
 
     public function handle() {
         session_start();
         if($_SESSION['user_id'] ?? false){
-            header("location: ". route('home'));
-            exit();
+
+            
+            Redirect::to(route('dashboard'));
+           /// header("location: ". route('dashboard'));
+          ///  exit();
         }
     }
 

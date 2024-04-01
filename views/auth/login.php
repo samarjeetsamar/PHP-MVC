@@ -7,10 +7,7 @@ include_once VIEW_BASE_PATH. 'partials/header.php';
         <div class="col-md-4 offset-4">
 
             <?php 
-            if(isset($_SESSION['resp'])) {
-                echo '<p class="bg-danger text-white text-center p-2">'. $_SESSION['resp'] . '</p>' ;
-                unset($_SESSION['resp']);
-            }
+            include_once VIEW_BASE_PATH . '/response/error.php';
             ?>
 
             <h3 class="text-center mb-4"> Login Form </h3>

@@ -4,6 +4,7 @@ use Core\Validator;
 use Core\Request;
 use Core\View;
 use App\Models\User;
+use Core\Redirect;
 
 class HomeController extends Controller {
 
@@ -23,17 +24,17 @@ class HomeController extends Controller {
 
     public function postValidationForm(Request $request){
 
-        $data = $request->all();
-        unset($data['url']);
-
-        $errors = Validator::validate($data, [
+        $input = $request->only(['name', 'email']);
+        
+        $errors = Validator::validate($input, [
             'name' => 'required|min:5',
-            'email' => 'required|min:50'
+            'email' => 'required|email'
         ]);
 
         if (count($errors) > 0) {
-            redirectBackWithErrors($errors);
+            Redirect::back()->withErrors($errors);
         } 
+    
     }
 
 

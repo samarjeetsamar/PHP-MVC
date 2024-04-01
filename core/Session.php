@@ -14,7 +14,6 @@ class Session {
 
     }
 
-
     public static function initialize() {
         if(!self::$initialize) {
             new self();

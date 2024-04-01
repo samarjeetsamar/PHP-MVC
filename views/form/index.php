@@ -24,6 +24,8 @@ session_start();
 
                 if (isset($_SESSION['errors'])) {
                     $errors = $_SESSION['errors'];
+
+                    
                     // Output error messages in your HTML
                     foreach ($errors as $field => $errorMessages) {
                         foreach ($errorMessages as $errorMessage) {

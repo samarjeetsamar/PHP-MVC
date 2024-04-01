@@ -14,14 +14,12 @@ include_once VIEW_BASE_PATH. 'partials/header.php';
 
 
             <?php if(isset($_SESSION['errors'])) { 
-                $errors = $_SESSION['errors']; ?>
+                $errors = $_SESSION['errors'];  ?>
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <ul class="list-unstyled">
-                    <?php foreach ($errors as $errorMessages )  {
-                        foreach($errorMessages as $errorMsg) { ?>
-                        <li> <?= $errorMsg ?> </li>
-                        <?php }
-                    } ?>
+                    <?php foreach ($errors as $errorMessages )  { ?>
+                        <li> <?= $errorMessages[0] ?> </li>
+                    <?php } ?>
                     </ul>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -35,11 +33,14 @@ include_once VIEW_BASE_PATH. 'partials/header.php';
                 <div class="mb-3">
                     <label for="name" class="form-label font-weight-bold">Name</label>
                     <input type="text" class="form-control" id="name" aria-describedby="name" name="username">
+
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email">
+
+                    
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>

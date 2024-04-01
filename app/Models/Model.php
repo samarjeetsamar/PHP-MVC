@@ -151,7 +151,7 @@ class Model extends DBConnection {
         try {
             $stmt = $this->connection->prepare($sql);
             $stmt->execute($this->values);
-            return $stmt->rowCount();
+            return true;
         } catch (\PDOException $e) {
             return false; // Handle the error as needed
         }

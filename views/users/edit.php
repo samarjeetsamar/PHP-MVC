@@ -7,29 +7,9 @@ include_once VIEW_BASE_PATH. '/partials/header.php';
             <div class="col-md-4 offset-4">
 
                 <?php 
-                
-                if (isset($_SESSION['success'])) {
-                    echo '<div class="alert alert-warning alert-dismissible fade show">'. $_SESSION['success'] . '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </div>';
-                    unset($_SESSION['success']);
-                }
-
-                ?>
-
-                <?php if(isset($_SESSION['errors'])) { 
-                    $errors = $_SESSION['errors']; ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <ul class="list-unstyled">
-                        <?php foreach ($errors as $errorMessages )  {
-                            foreach($errorMessages as $errorMsg) { ?>
-                            <li> <?= $errorMsg ?> </li>
-                            <?php }
-                        } ?>
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php 
-                    unset($_SESSION['errors']);
-                } 
+                include_once VIEW_BASE_PATH . '/response/success.php';
+                include_once VIEW_BASE_PATH . '/response/error.php'; 
+                include_once VIEW_BASE_PATH . '/response/validation.php';   
                 ?>
 
                 <h3> Update User Details </h3>

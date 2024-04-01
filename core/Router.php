@@ -21,9 +21,7 @@ class Router {
     }
 
     public function middleware($middlewareName) {
-        // Add middleware to the list
         $this->middlewares[] = $middlewareName;
-        
         return $this;
     }
 
@@ -149,6 +147,8 @@ class Router {
 
     public function generateURL($name, $params = []) {
 
+
+        
         if (isset($this->namedRoutes[$name])) {
             $pattern = $this->namedRoutes[$name]['pattern'];
             $pattern = preg_replace_callback('/\{(\w+):(\w+)\}/', function ($matches) use (&$params) {

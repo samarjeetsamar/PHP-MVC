@@ -6,8 +6,10 @@ use Core\View;
 use Core\Session;
 use Core\Validator;
 use App\Controllers\Controller;
+use App\Exceptions\NotFoundException;
 use Core\Request;
-
+use Core\Redirect;
+use Exception;
 
 class UserController extends Controller {
 
@@ -34,16 +36,20 @@ class UserController extends Controller {
         View::render('/users/index.php', $users);
     }
 
-    public function edit( $id){
-
-
+    public function edit($id){
 
         $user = new User;
-        $data = $user->select(['id', 'username', 'email'])->where('id', '=', $id)->first();
+
+        try {
+            $data = $user->select(['id', 'username', 'email'])->where('id', '=', $id)->first();
+            if(!$data) {
+                throw new NotFoundException('User Not found!');
+            }
+        }catch(NotFoundException $e){
+            echo $e->getMessage();
+            exit;
+        }  
         
-        if(!$data) {
-            die('User Not Found!');
-        }
         $user = ['user' => $data];
         
         View::render('users/edit.php', $user);
@@ -68,36 +74,36 @@ class UserController extends Controller {
             $user = $user->deleteUser($id);
             if($user) {
                 $msg = 'User Deleted successfully!';
-                redirectWithSuccessMsg($msg);
+                Redirect::back()->with('success', $msg);
             }
         }catch(\Exception $e){
             return $e->getMessage();
         }
 
-        return redirectBack();
+        return Redirect::back();
+        //return redirectBack();
 
     }
 
     public function update(Request $request, $id){
-        $data = $request->all();
-        //die;
 
+        $data = $request->all();
         $errors = Validator::validate($data, [
             'username' => 'required|min:5',
-            'email' => 'required',
+            'email' => 'required|email',
         ]);
 
         if(count($errors) > 0){
-            redirectBackWithErrors($errors);
+            Redirect::back()->withErrors($errors);
         }
 
         $user  = new User;
         $updated = $user->updateUser($data, $id);
-        
+
         if($updated){
-            redirectWithSuccessMsg('User Recored Updated Successfully!');
+            Redirect::back()->with('success', 'User Recored Updated Successfully!');
         }else {
-            redirectBackWithErrors(['error while updating user record!']);
+            Redirect::back()->with('error', 'Something went wrong!');
         }
     }
 }

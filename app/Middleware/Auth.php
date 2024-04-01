@@ -1,13 +1,17 @@
 <?php
 namespace App\Middleware;
 
+use Core\Redirect;
+
 class Auth {
 
     public function handle() {
         session_start();
         if(!isset($_SESSION['user_id'])){
-            header("location: ". route('showLoginForm'));
-            exit();
+
+            Redirect::to(route('showLoginForm'));
+           // header("location: ". route('showLoginForm'));
+           // exit();
         }
         
     }

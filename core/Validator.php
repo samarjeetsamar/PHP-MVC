@@ -5,46 +5,45 @@ namespace Core;
 class Validator {
     
 
-    public static function validate(array $data, array $rules){
+    protected static $errors = [];
 
-        $errors = [];
-
+    public static function validate(array $data, array $rules) {
         foreach ($rules as $field => $rule) {
-            $ruleArray = explode('|', $rule);
+            $rulesArray = explode('|', $rule);
+            foreach ($rulesArray as $singleRule) {
+                $parts = explode(':', $singleRule);
+                $method = 'validate' . ucfirst($parts[0]);
+                $value = isset($data[$field]) ? $data[$field] : null;
 
-            foreach ($ruleArray as $singleRule) {
-                switch ($singleRule) {
-                    case 'required':
-                        if (empty($data[$field])) {
-                            $errors[$field][] = "The $field field is required.";
-                        }
-                        break;
-
-                    case 'email':
-                        if (!filter_var($data[$field], FILTER_VALIDATE_EMAIL)) {
-                            $errors[$field][] = "The $field field must be a valid email address.";
-                        }
-                        break;
-
-                    // Add more validation rules using additional cases
-                    case strpos($singleRule, 'min:') === 0:
-                        $minLength = (int) substr($singleRule, 4);
-                        if (strlen($data[$field]) < $minLength) {
-                            $errors[$field][] = "The $field field must be at least $minLength characters long.";
-                        }
-                        break;
-
-                    // Handle other validation rules
-
-                    default:
-                        // Unknown rule
-                        break;
+                if (method_exists(self::class, $method)) {
+                    self::$method($field, $value, $parts);
                 }
             }
         }
 
-        return $errors;
+        return self::errors();
         
+    }
+
+    protected static function addError($field, $message) {
+        self::$errors[$field][] = $message;
+    }
+
+    public static function errors() {
+        return self::$errors;
+    }
+
+    // Define validation methods like validateRequired, validateEmail, etc.
+    protected static function validateRequired($field, $value, $parts) {
+        if (empty($value)) {
+            self::addError($field, "The $field field is required.");
+        }
+    }
+    
+    protected static function validateEmail($field, $value, $parts) {
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            self::addError($field, "The $field field must be a valid Email.");
+        }
     }
     
 }

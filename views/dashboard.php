@@ -5,7 +5,11 @@ include_once VIEW_BASE_PATH .'partials/header.php';
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-3">
-            <p class="bg-success text-white p-2"> You are logged In ! </p>
+
+            <?php 
+                include_once VIEW_BASE_PATH . '/response/success.php';
+            ?>
+            
             <b> Hello Mr. </b>  <?= $_SESSION['user']->username ; ?>
             <br>
             <form method="POST" action="<?php echo route('logout'); ?>"> 

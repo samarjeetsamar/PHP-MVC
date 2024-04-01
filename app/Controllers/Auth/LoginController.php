@@ -4,6 +4,7 @@ namespace App\Controllers\Auth;
 use App\Controllers\Controller;
 use Core\View;
 use App\Models\User;
+use Core\Redirect;
 use Core\Request;
 
 class Logincontroller extends Controller {
@@ -32,22 +33,17 @@ class Logincontroller extends Controller {
             $rememberToken = $data['rememberme_token'];
         }
 
-        $user =  new User;
-        $userResp = $user->authenticate($email, $password);
+        $userObj =  new User;
+        $user = $userObj->authenticate($email, $password);
 
-        if($userResp){
-
+        if($user){
             session_start();
-            $_SESSION['user'] =  $userResp;
-            $_SESSION['user_id'] =  $userResp->id;
-            
-            $dashboard = route('dashboard');
-            
-            redirect($dashboard);
-           // redirectToDashboard();
+            $_SESSION['user'] =  $user;
+            $_SESSION['user_id'] =  $user->id;
+            Redirect::to(route('dashboard'))->with('success', 'You are logged in !');
         }else {
             $error = 'Error while login !';
-            redirectWithErrorMsg($error);
+            Redirect::back()->with('error', $error);
         }
 
     }
@@ -60,9 +56,8 @@ class Logincontroller extends Controller {
         if (isset($_COOKIE[session_name()])) {
             setcookie(session_name(), '', time() - 3600, '/');
         }
-        $url = route('showLoginForm');
         
-        redirect($url);
+        Redirect::to(route('showLoginForm'));
 
     }
 
