@@ -6,8 +6,13 @@ use App\Models\User;
 use Core\Redirect;
 use Core\Session;
 use Core\Validator;
+use Core\View;
 
 class RegisterController {
+
+    public function register(){
+         View::render('auth/register.php');
+    }
     
     public function create(Request $request){
 
@@ -34,6 +39,7 @@ class RegisterController {
 
         if(isset($data['remember_token'])) {
             $rememberToken = $data['remember_token']; 
+            bin2hex(random_bytes(32));
         }
        
         try{

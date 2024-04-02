@@ -20,13 +20,16 @@ class RouteResolver extends Router{
     public function handleRoute($requestMethod, $requestUri) {
 
         try {
-            foreach($this->routes as $route){
+
+            // $lastKey = end(array_keys($this->routes)); 
+            foreach($this->routes as $key => $route){
             
                 $routePattern =  $this->routeToPattern($route['pattern']);
                 $action = $route['action'];
     
                 // Remove query string from URL 
                 $requestUri =  strtok($requestUri, '?') ;
+
                 
                 if( $requestMethod == $route['method'] && preg_match($routePattern, $requestUri , $matches)) { 
                     

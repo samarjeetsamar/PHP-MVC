@@ -180,7 +180,7 @@ class Router {
                 case 'int':
                     return '(\d+)';
                 case 'string':
-                    return '([a-zA-Z]+)'; 
+                    return '(\w+)'; 
                 default:
                     return '(\w+)'; 
             }

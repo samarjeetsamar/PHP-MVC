@@ -8,12 +8,13 @@ include_once VIEW_BASE_PATH .'partials/header.php';
 
             <?php 
                 include_once VIEW_BASE_PATH . '/response/success.php';
+               
             ?>
             
-            <b> Hello Mr. </b>  <?= $_SESSION['user']->username ; ?>
+            <b> Hello  </b>  <i> Mr. <?= $data->username ; ?> </i>
             <br>
             <form method="POST" action="<?php echo route('logout'); ?>"> 
-                <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
+                <input type="hidden" name="user_id" value="<?php echo $data->id; ?>">
                 <button type="submit" class="mt-5 btn-danger btn-sm"> Logout </button>
             </form>
         </div>

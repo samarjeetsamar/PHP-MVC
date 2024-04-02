@@ -14,7 +14,7 @@ $router->post('/form-validate-post', 'App\Controllers\HomeController@postValidat
 
 
 $router->get('/dashboard', 'App\Controllers\HomeController@dashboard')->name('dashboard')->only('Auth');
-$router->get('/register', 'App\Controllers\UserController@index')->name('User')->only('Guest');
+$router->get('/register', 'App\Controllers\Auth\RegisterController@register')->name('User')->only('Guest');
 $router->get('/user/{id:int}', 'App\Controllers\UserController@show')->name('show.user');
 $router->get('/user/{id:int}/edit', 'App\Controllers\UserController@edit')->name('user.edit');
 $router->post('/user/update/{id:int}', 'App\Controllers\UserController@update')->name('user.update');
@@ -27,6 +27,9 @@ $router->get('/contact', 'App\Controllers\ContactController@index')->name('conta
 $router->post('/contact', 'App\Controllers\ContactController@submitForm')->name('AddContactForm');
 
 $router->get('/test', 'App\Controllers\TestController@test')->name('test');
+$router->get('/post', 'App\Controllers\PostController@create')->name('post.create');
+$router->post('/post', 'App\Controllers\PostController@store')->name('post.store');
+$router->get('/post-item/{slug:string}', 'App\Controllers\PostController@show')->name('post.show');
 
 
 

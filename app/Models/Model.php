@@ -23,7 +23,6 @@ class Model extends DBConnection {
     }
 
     
-
     public function table($table) {
         $this->table = $table;
         return $this;

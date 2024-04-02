@@ -1,19 +1,24 @@
 <?php 
 namespace App\Controllers;
+
+use App\Exceptions\NotFoundException;
 use Core\Validator;
 use Core\Request;
 use Core\View;
 use App\Models\User;
 use Core\Redirect;
+use App\Models\Post;
 
 class HomeController extends Controller {
 
     public function index(Request $request){
 
         $data = $request->all();
-        $user = new User();
-        $data = $user->getAllUsers();
-        View::render('index.php', ['data' => $data]);
+        $postObj = new Post;
+        $posts = $postObj->getAllPosts();
+
+
+        View::render('index.php', ['data' => $posts]);
     }
 
     public function getValidationForm(){
@@ -40,18 +45,15 @@ class HomeController extends Controller {
 
     public function dashboard(){
 
+        $user = new User;
+        $data  = $user->select(['id', 'username', 'email'])->where('id', '=', $_SESSION['user']->id)->first();
+
+        if(!$data) {
+            throw new NotFoundException('You are not logged in!');
+        }
         
+        View::render('dashboard.php', ['data' => $data]);
 
-        View::render('dashboard.php');
-
-        // if(session_status() !== PHP_SESSION_ACTIVE ){
-        //     session_start();
-        // }
-        // if(isset($_SESSION['user_id'])) {
-        //     View::render('views/dashboard.php');
-        // }else {
-        //     $url = route('showLoginForm');
-        //     redirect($url);
-        // }
+       
     }
 }
