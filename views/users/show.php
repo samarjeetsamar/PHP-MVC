@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                             <?php if(isset($data) ) : ?> 
-                                <tr class="">
+                                <tr>
                                     <td> <?=  $data->username; ?> </td>
                                     <td><?= $data->email; ?></td>
                                 </tr>

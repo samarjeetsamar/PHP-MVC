@@ -1,10 +1,7 @@
 <?php
 namespace App\Models;
 
-use App\Models\Model;
-use Core\Validator;
-
-//use PDO;
+use Core\Model;
 
 class User extends Model {
     protected $table = "users";

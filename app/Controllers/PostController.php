@@ -9,6 +9,7 @@ use Core\Validator;
 
 use App\Services\PostService;
 use Core\View;
+use Core\Facade\Auth;
 class PostController {
 
 
@@ -19,8 +20,13 @@ class PostController {
 
     public function store(Request $request){
 
-        $input = $request->only(['title', 'slug', 'body']);
+        if(!Auth::check()){
+            Redirect::back()->with('error', 'You must login to create a post!');
+        }
 
+        $input = $request->only(['title', 'body']);
+
+        
         $errors = Validator::validate($input, [
             'title' => 'required|min:20',
             'body' => 'required'
@@ -30,8 +36,10 @@ class PostController {
             Redirect::back()->withErrors($errors);
         }
 
+        
         $slug = PostService::generateSlug($input['title']);
         $input['slug'] = $slug;
+        $input['user_id'] = Auth::user()->id;
 
         try {
             $postObj = new Post;

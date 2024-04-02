@@ -2,17 +2,14 @@
 namespace App\Middleware;
 
 use Core\Redirect;
+use Core\Facade\Auth;
 
-class Guest {
+class GuestMiddleware {
 
     public function handle() {
         session_start();
-        if($_SESSION['user_id'] ?? false){
-
-            
+        if(Auth::user() ?? false){
             Redirect::to(route('dashboard'));
-           /// header("location: ". route('dashboard'));
-          ///  exit();
         }
     }
 

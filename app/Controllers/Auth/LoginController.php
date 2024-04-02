@@ -6,6 +6,7 @@ use Core\View;
 use App\Models\User;
 use Core\Redirect;
 use Core\Request;
+use Core\Facade\Auth;
 
 class Logincontroller extends Controller {
     
@@ -35,11 +36,10 @@ class Logincontroller extends Controller {
 
         $userObj =  new User;
         $user = $userObj->authenticate($email, $password);
-
+        
         if($user){
             session_start();
             $_SESSION['user'] =  $user;
-            $_SESSION['user_id'] =  $user->id;
             Redirect::to(route('dashboard'))->with('success', 'You are logged in !');
         }else {
             $error = 'Error while login !';

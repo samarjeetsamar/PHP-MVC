@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\Model;
+use Core\Model;
 
 class Post extends Model {
 

@@ -39,10 +39,10 @@ $container->bind('Core\Request', function(){
     return new \Core\Request();
 });
 $container->bind('Auth', function(){
-    return new \App\Middleware\Auth();
+    return new \App\Middleware\AuthMiddleware();
 });
 $container->bind('Guest', function(){
-    return new \App\Middleware\Guest();
+    return new \App\Middleware\GuestMiddleware();
 });
 
 

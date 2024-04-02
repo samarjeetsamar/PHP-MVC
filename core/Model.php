@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace Core;
 
 use Core\DBConnection;
 use PDO;
@@ -167,6 +167,10 @@ class Model extends DBConnection {
             }
         }
         return $array;
+    }
+
+    public function belongsTo(){
+
     }
 
 }

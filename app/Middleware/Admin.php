@@ -2,12 +2,13 @@
 namespace App\Middleware;
 
 use Core\Redirect;
+use Core\Facade\Auth;
 
-class Auth {
+class AuthMiddleware {
 
     public function handle() {
         session_start();
-        if(!isset($_SESSION['user_id'])){
+        if(!Auth::check() && Auth::user()->is_admin == 0){
 
             Redirect::to(route('showLoginForm'));
            // header("location: ". route('showLoginForm'));

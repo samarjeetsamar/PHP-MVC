@@ -4,7 +4,7 @@ include_once VIEW_BASE_PATH. '/partials/header.php';
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-md-6 offset-3">
+            <div class="col-md-8 offset-2">
 
                 <?php 
                 include_once VIEW_BASE_PATH . '/response/success.php';
@@ -20,13 +20,15 @@ include_once VIEW_BASE_PATH. '/partials/header.php';
                     </div>
                     <div class="mb-3">
                         <label >Body</label>
-                        <textarea rows="5" name="body" id="body" class="form-control"></textarea>
+                        <textarea rows="15" name="body" id="article" class="form-control"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Post</button>
                 </form>
             </div>
         </div>
     </div>
+
 <?php 
+
 include_once  VIEW_BASE_PATH. '/partials/footer.php';
 ?>

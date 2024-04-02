@@ -6,10 +6,13 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $metadata['title'] ?? ''; ?></title>
-    <meta name="description" content="<?= $metadata['description'] ?? ''; ?>">
+    <title> <?= $metadata['title'] ?? ''; ?> </title>
+    <meta name="description" content="<?= strip_tags($metadata['description']) ?? ''; ?>">
     <meta name="keywords" content="<?=  $metadata['keywords'] ?? ''; ?>">
     <?php include_once VIEW_BASE_PATH .'partials/head.php'; ?>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
 
