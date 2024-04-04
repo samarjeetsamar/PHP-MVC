@@ -7,12 +7,14 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <?= $metadata['title'] ?? ''; ?> </title>
-    <meta name="description" content="<?= strip_tags($metadata['description']) ?? ''; ?>">
+    <meta name="description" content="<?= (isset($metadata['description'])) ? strip_tags($metadata['description']) : ''; ?>">
     <meta name="keywords" content="<?=  $metadata['keywords'] ?? ''; ?>">
     <?php include_once VIEW_BASE_PATH .'partials/head.php'; ?>
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<link rel="stylesheet" href="<?= asset('css/bootstrap.min.css'); ?>">
 </head>
 <body>
 
@@ -20,7 +22,8 @@ if(session_status() !== PHP_SESSION_ACTIVE) session_start();
 <nav class="navbar navbar-expand-md bg-body-tertiary">
   	<div class="container-xl">
 		<a class="navbar-brand" href="<?= route('home'); ?>">
-			<img src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png" alt="">
+			<!-- <img src="https://codingyaar.com/wp-content/uploads/coding-yaar-logo.png" alt=""> -->
+			<img src="<?= asset('images/logo.png'); ?>" alt="">
 		</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>

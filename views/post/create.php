@@ -20,7 +20,7 @@ include_once VIEW_BASE_PATH. '/partials/header.php';
                     </div>
                     <div class="mb-3">
                         <label >Body</label>
-                        <textarea rows="15" name="body" id="article" class="form-control"></textarea>
+                        <textarea rows="10" name="body" id="article" class="form-control"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Post</button>
                 </form>

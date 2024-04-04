@@ -2,6 +2,7 @@
 namespace Core;
 
 use Core\DBConnection;
+use Exception;
 use PDO;
 
 
@@ -10,11 +11,12 @@ class Model extends DBConnection {
     protected $connection;
 
     protected $table ;
+    protected $primaryKey = 'id';
     protected $columns = '*';
     protected $conditions = [];
     protected $values = [];
 
-    protected $sqlStatement = '';
+    protected $joinQuery = '';
 
     private $data;
 
@@ -36,6 +38,8 @@ class Model extends DBConnection {
 
     public function get(){
         $sql = "SELECT {$this->columns} FROM {$this->table}";
+        
+        $sql .= $this->joinQuery;
 
         if(!empty($this->conditions)){
             $whereClause = implode(' AND ', $this->conditions);
@@ -46,7 +50,8 @@ class Model extends DBConnection {
         for($i = 0; $i < count($this->values); $i++){
             $stmt->bindValue($i+1, $this->values[$i]);
         }
-        $this->sqlStatement = $sql;
+
+        
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -55,6 +60,9 @@ class Model extends DBConnection {
 
     public function first() {
         $sql = "SELECT {$this->columns} FROM {$this->table}";
+
+        $sql .= $this->joinQuery;
+
         if(!empty($this->conditions)){
             $whereClause = implode(' AND ', $this->conditions);
             $sql .= " WHERE {$whereClause}";
@@ -66,7 +74,7 @@ class Model extends DBConnection {
         for($i = 0; $i < count($this->values); $i++){
             $stmt->bindValue($i+1, $this->values[$i]);
         }
-        $this->sqlStatement = $sql;
+        
         $stmt->execute();
         $fetachData =  $stmt->fetch(PDO::FETCH_OBJ);
         $this->data = $fetachData;
@@ -89,8 +97,7 @@ class Model extends DBConnection {
         for($i = 0; $i < count($this->values); $i++){
             $stmt->bindValue($i+1, $this->values[$i]);
         }
-
-        $this->sqlStatement = $sql;
+        
         return $stmt->execute();
     }
 
@@ -102,7 +109,7 @@ class Model extends DBConnection {
     }
 
     public function sql() {
-        return $this->sqlStatement;
+        return $this->joinQuery;
     }
 
     public function insert(array $data){
@@ -145,7 +152,7 @@ class Model extends DBConnection {
             $sql .= " WHERE {$whereClause}";
         }
 
-        $this->sqlStatement = $sql;
+        $this->joinQuery = $sql;
         
         try {
             $stmt = $this->connection->prepare($sql);
@@ -169,8 +176,44 @@ class Model extends DBConnection {
         return $array;
     }
 
-    public function belongsTo(){
+    public function getTableNameFromClass($relatedModel) {
+        $reflection = new \ReflectionClass($relatedModel);
+        $property = $reflection->getProperty('table');
+        $property->setAccessible(true);
+        return $property->getValue(new $relatedModel);
+    }
 
+    public function belongsTo($relatedModel, $foreignKey){
+
+
+        try{
+            $relatedTable = $this->getTableNameFromClass($relatedModel);
+        }catch(\Exception $e){
+            echo $e->getMessage();
+            exit;
+        }
+
+        $this->joinQuery .= " INNER JOIN $relatedTable ON {$this->table}.$foreignKey = $relatedTable.{$this->primaryKey}";
+
+        return $this;
+    }
+
+    public function with($relationship){
+
+        $relatedModel = "App\\Models\\" . ucfirst($relationship);
+
+        // Check if the related model exists
+        if (!class_exists($relatedModel)) {
+            throw new \Exception("Related model {$relatedModel} does not exist.");
+        }
+
+        if(method_exists(get_called_class(), $relationship)) {
+            $this->$relationship();
+        }else {
+            throw new \Exception('Method ' . $relationship .'() Not Exists');
+        }
+
+        return $this;
     }
 
 }

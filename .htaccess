@@ -1,6 +1,5 @@
 # It's working without .htaccess (this file)
 RewriteEngine On
-
 RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]
 

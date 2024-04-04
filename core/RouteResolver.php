@@ -32,6 +32,7 @@ class RouteResolver extends Router{
 
                 
                 if( $requestMethod == $route['method'] && preg_match($routePattern, $requestUri , $matches)) { 
+
                     
                     if($route['middleware']) {
                         $middleware = $this->container->resolve($route['middleware']);

@@ -1,8 +1,7 @@
 <?php
 
 use Core\Router;
-use Core\Session;
-use Core\Request;
+
 
 function route($routeName, $params = []) {
     $baseURL = $_SERVER['BASE_URL'];
@@ -24,6 +23,11 @@ function array_flatten($array) {
       } 
     } 
     return $result; 
+}
+
+function asset($path = null){
+  $baseURL = $_SERVER['BASE_URL'];
+  return $baseURL.'/'.$path;
 }
 
  function dd($data = null){

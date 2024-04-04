@@ -10,6 +10,8 @@ use Core\Validator;
 use App\Services\PostService;
 use Core\View;
 use Core\Facade\Auth;
+use Exception;
+
 class PostController {
 
 
@@ -53,12 +55,23 @@ class PostController {
     }
 
     public function show($slug){
+
+        
         $postObj = new Post;
+        
         $metadata = [];
-        $post = $postObj->select(['id', 'title', 'body'])->where('slug', '=', $slug)->first();
-        $metadata['title'] = $post->title;
-        $metadata['description'] = $post->body;
-        $metadata['keywords'] = $post->title;
+        $post = $postObj->with('user')->select(['posts.id', 'title', 'body', 'username', 'created_at'])->where('slug', '=', $slug)->first();
+
+        //dd($post);
+
+        if($post){
+            $metadata['title'] = $post->title;
+            $metadata['description'] = $post->body;
+            $metadata['keywords'] = $post->title;
+        }else {
+            throw new NotFoundException('We are sorry for the inconvenience. It looks like you\'re trying to access the page that either has been deleted or never even existed.');
+
+        }
 
         View::render('post/single.php', ['post'=>$post, 'metadata' => $metadata]);
        // die;

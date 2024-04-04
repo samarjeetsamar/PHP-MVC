@@ -29,7 +29,7 @@ $router->post('/contact', 'App\Controllers\ContactController@submitForm')->name(
 $router->get('/test', 'App\Controllers\TestController@test')->name('test');
 $router->get('/post', 'App\Controllers\PostController@create')->name('post.create');
 $router->post('/post', 'App\Controllers\PostController@store')->name('post.store');
-$router->get('/post-item/{slug:string}', 'App\Controllers\PostController@show')->name('post.show');
+$router->get('/post/{slug:string}', 'App\Controllers\PostController@show')->name('post.show');
 
 
 
