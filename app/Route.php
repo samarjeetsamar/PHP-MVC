@@ -31,6 +31,9 @@ $router->get('/post', 'App\Controllers\PostController@create')->name('post.creat
 $router->post('/post', 'App\Controllers\PostController@store')->name('post.store');
 $router->get('/post/{slug:string}', 'App\Controllers\PostController@show')->name('post.show');
 
+$router->get('/user/profile/{name:string}', 'App\Controllers\UserController@profile')->name('user.profile');
+
+
 
 
 

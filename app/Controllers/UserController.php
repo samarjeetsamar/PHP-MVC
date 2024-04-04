@@ -106,4 +106,16 @@ class UserController extends Controller {
             Redirect::back()->with('error', 'Something went wrong!');
         }
     }
+
+    public function profile($username){
+        
+        $userObj = new User;
+        $user = $userObj->select(['*'])->where('username', '=', 'samarjeet kumar')->first();
+        
+        if($user) {
+            View::render('users/show.php', ['data' => $user]);
+        }
+        
+        throw new NotFoundException('User not found!');
+    }
 }

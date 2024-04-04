@@ -22,6 +22,7 @@ class View
 
         //ob_get_clean();
         require_once VIEW_BASE_PATH . $view;
+        exit;
         
     }
 }

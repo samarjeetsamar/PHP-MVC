@@ -23,7 +23,7 @@ include_once VIEW_BASE_PATH.'/partials/header.php';
                             <?php foreach($data as $key => $val) : ?>
                                 <tr class="">
                                     <td scope="row"><?= $key+1; ?></td>
-                                    <td> <?=  $val['username']; ?> </td>
+                                    <td> <a href="<?= route('user.profile', ['name'=>$val['username']]) ?>"> <?=  $val['username']; ?> </a> </td>
                                     <td><?= $val['email']; ?></td>
                                     <td> 
                                         <a class="btn btn-sm" href="<?php echo route('user.edit', ['id'=> $val['id']]); ?>"><i class="fas fa-edit"></i>   </a> 

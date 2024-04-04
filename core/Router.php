@@ -172,6 +172,8 @@ class Router {
 
     protected function routeToPattern($route) {
 
+       
+
         $routePattern = preg_replace_callback('/\{(\w+):(\w+)\}/', function ($matches) {
             $paramName = $matches[1];
             $paramType = $matches[2];
@@ -180,13 +182,14 @@ class Router {
                 case 'int':
                     return '(\d+)';
                 case 'string':
-                    return '(\w+)'; 
+                    return '([\w%]+)'; 
                 default:
                     return '(\w+)'; 
             }
         }, $route);
 
         $routePattern = '#^' . $routePattern . '$#';
+        
         return $routePattern;
     }
 
