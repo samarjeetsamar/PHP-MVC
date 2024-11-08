@@ -2,8 +2,12 @@
 namespace App\Models;
 
 use Core\Model;
+//use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model {
+
+    //use HasRoles;
+
     protected $table = "users";
     
     public function getAllUsers() {
@@ -54,5 +58,9 @@ class User extends Model {
             return false;
         }
         
+    }
+
+    public function posts(){
+        return $this->hasMany(Post::class, 'user_id');
     }
 }

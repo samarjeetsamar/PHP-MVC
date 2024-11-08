@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 define('VIEW_BASE_PATH', __DIR__ . '/../views/');
 require_once __DIR__.'/../vendor/autoload.php';
 
+use Core\DBConnection;
 use \Core\RouteResolver;
 use \Core\ServiceContainer;
 use \Dotenv\Dotenv;
@@ -14,6 +15,8 @@ use \Dotenv\Dotenv;
 //load .env
 $dotenv = Dotenv::createImmutable(__DIR__.'/..');
 $dotenv->load();
+
+session_start();
 
 unset($_SERVER['DB_HOST']);
 unset($_SERVER['DB_USER']);
@@ -34,17 +37,15 @@ $routeURL = substr($currentUrl, strlen($baseURL));
 
 //service container functionality
 $container = new ServiceContainer();
-$container->bind('Core\Request', function(){
-    return new \Core\Request();
-});
+
+
+//Bind Middleware here //
 $container->bind('Auth', function(){
     return new \App\Middleware\AuthMiddleware();
 });
 $container->bind('Guest', function(){
     return new \App\Middleware\GuestMiddleware();
 });
-
-
 
 $routeResolver = new RouteResolver($routes, $container);
 $routeResolver->handleRoute($requestMethod, $routeURL);

@@ -92,11 +92,19 @@ class Model extends DBConnection {
 
         $stmt = $this->connection->prepare($sql);
 
+        
+        
         $this->values = array_flatten($this->values);
-       
+
+        
+        
         for($i = 0; $i < count($this->values); $i++){
+
             $stmt->bindValue($i+1, $this->values[$i]);
         }
+        
+        
+        
         
         return $stmt->execute();
     }
@@ -177,14 +185,17 @@ class Model extends DBConnection {
     }
 
     public function getTableNameFromClass($relatedModel) {
+
+        
         $reflection = new \ReflectionClass($relatedModel);
+
+
         $property = $reflection->getProperty('table');
         $property->setAccessible(true);
         return $property->getValue(new $relatedModel);
     }
 
     public function belongsTo($relatedModel, $foreignKey){
-
 
         try{
             $relatedTable = $this->getTableNameFromClass($relatedModel);
@@ -197,6 +208,23 @@ class Model extends DBConnection {
 
         return $this;
     }
+
+    public function hasMany($relatedModel, $foreignKey){
+
+        
+        try{
+            $relatedTable = $this->getTableNameFromClass($relatedModel);
+        }catch(\Exception $e){
+            echo $e->getMessage();
+            exit;
+        }
+       
+
+        $this->joinQuery .= " LEFT JOIN $relatedTable ON {$this->table}.$foreignKey = $relatedTable.{$this->primaryKey}";
+
+        return $this;
+    }
+
 
     public function with($relationship){
 
@@ -215,5 +243,7 @@ class Model extends DBConnection {
 
         return $this;
     }
+
+
 
 }

@@ -5,7 +5,6 @@ use Exception;
 
 use Core\Router;
 use App\Exceptions\NotFoundException;
-use App\Middleware\AuthMiddleware;
 use Core\View;
 
 class RouteResolver extends Router{
@@ -20,24 +19,29 @@ class RouteResolver extends Router{
     public function handleRoute($requestMethod, $requestUri) {
 
         try {
-
             // $lastKey = end(array_keys($this->routes)); 
             foreach($this->routes as $key => $route){
             
                 $routePattern =  $this->routeToPattern($route['pattern']);
                 $action = $route['action'];
-    
                 // Remove query string from URL 
                 $requestUri =  strtok($requestUri, '?') ;
-
-                
                 if( $requestMethod == $route['method'] && preg_match($routePattern, $requestUri , $matches)) { 
 
-                    
                     if($route['middleware']) {
-                        $middleware = $this->container->resolve($route['middleware']);
-                        $middleware->handle();
+                        $middlewares = is_array($route['middleware']) ? $route['middleware'] : [$route['middleware']];
+                        foreach ($middlewares as $middleware) {
+
+                            // Resolve the middleware instance
+                            $middlewareInstance = $this->container->make($middleware);
+                            if (method_exists($middlewareInstance, 'handle')) {
+                                $middlewareInstance->handle();
+                            } else {
+                                throw new Exception("Middleware {$middleware} does not have a handle method.");
+                            }
+                        }
                     }
+                
     
                     $dependencies = [];
                     if(is_string($action)){
@@ -82,12 +86,5 @@ class RouteResolver extends Router{
             View::render('404.php', ['errorMsg' => $e->getMessage(), 'code' => $e->getCode()]);
             exit;
         }
-        
-
-        
-
-        
-
-        
     }
 }

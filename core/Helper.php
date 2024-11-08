@@ -4,6 +4,12 @@ use Core\Router;
 
 
 function route($routeName, $params = []) {
+
+
+    if(!is_array($params)){
+       $params = [$params];
+    }
+  
     $baseURL = $_SERVER['BASE_URL'];
     $router = Router::getInstance();
     $generatedRouteURL = $router->generateURL($routeName, $params);
@@ -12,29 +18,32 @@ function route($routeName, $params = []) {
 
 function array_flatten($array) { 
     if (!is_array($array)) { 
-      return false; 
+      	return false; 
     } 
     $result = array(); 
     foreach ($array as $key => $value) { 
-      if (is_array($value)) { 
-        $result = array_merge($result, array_flatten($value)); 
-      } else { 
-        $result = array_merge($result, array($key => $value));
-      } 
+		if (is_array($value)) { 
+			$result = array_merge($result, array_flatten($value)); 
+		} else { 
+			$result = array_merge($result, array($key => $value));
+		} 
     } 
     return $result; 
 }
 
 function asset($path = null){
-  $baseURL = $_SERVER['BASE_URL'];
-  return $baseURL.'/'.$path;
+	$baseURL = $_SERVER['BASE_URL'];
+	return $baseURL.'/'.$path;
 }
 
- function dd($data = null){
-    echo "<pre>";
-    var_dump($data);
-    echo "<pre/>";
-    exit();
+if (!function_exists("dd")) {
+    function dd($data = null){
+		echo "<pre>";
+		var_dump($data);
+		echo "<pre/>";
+		exit();
+  	}
 }
+ 
 
    

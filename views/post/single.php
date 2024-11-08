@@ -13,13 +13,15 @@ include_once VIEW_BASE_PATH. '/partials/header.php';
 
                 ?>
 
+                
+
                 <a class="btn btn-primary mb-5" href="<?= route('home') ?>"> All Posts </a>
 
                 <h3 class="mb-3"> <?= $post->title; ?> </h3>
                 
                 <div class="mb-5">
                     <span>Written by ----</span>
-                    <span class="badge bg-primary">  <?= $post->username; ?> </span>
+                    <span class="badge badge-sm"> <a class="btn btn-sm btn-link" href="<?= route('user.profile', $post->username); ?>"> <?= $post->username; ?> </a> </span>
                     <div> Published At <span class="badge bg-secondary"> <?= \Carbon\Carbon::parse($post->created_at)->diffForHumans(); ?> </span> </div>
                 </div>
 

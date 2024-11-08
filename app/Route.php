@@ -32,6 +32,18 @@ $router->post('/post', 'App\Controllers\PostController@store')->name('post.store
 $router->get('/post/{slug:string}', 'App\Controllers\PostController@show')->name('post.show');
 
 $router->get('/user/profile/{name:string}', 'App\Controllers\UserController@profile')->name('user.profile');
+$router->get('/user-posts', 'App\Controllers\PostController@getPostsByUser')->name('user.posts');
+
+$router->get('/testing/{id:20}', 'App\Controllers\TestingController@index');
+
+$router->get('/clear-session', function(){
+    unset($_SESSION);
+    session_destroy();
+    echo 'session cleared!!!';
+});
+
+
+
 
 
 

@@ -49,7 +49,6 @@ class Logincontroller extends Controller {
     }
 
     public function logout() {
-        session_start();
         $_SESSION = array();
         session_destroy();
 

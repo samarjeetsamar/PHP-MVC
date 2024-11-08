@@ -8,15 +8,14 @@ use Core\View;
 use App\Models\User;
 use Core\Redirect;
 use App\Models\Post;
+use Core\Facade\Auth;
 
 class HomeController extends Controller {
 
     public function index(Request $request){
 
-        $data = $request->all();
         $postObj = new Post;
         $posts = $postObj->getAllPosts();
-
 
         View::render('index.php', ['data' => $posts]);
     }

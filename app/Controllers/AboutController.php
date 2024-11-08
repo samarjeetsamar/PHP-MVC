@@ -4,12 +4,15 @@ namespace App\Controllers;
 
 use Core\View;
 use App\Models\User;
+use Core\Request;
+
 
 class AboutController {
-    public function index(){
-        $user = new User;
-        $data = $user->getAllUsers();
+    public function index(Request $user){
 
-        View::render('views/index.php', $data);
+        
+        print_r($user->headers());
+        
+        
     }
 }

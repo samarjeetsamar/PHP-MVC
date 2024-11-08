@@ -60,9 +60,9 @@ class PostController {
         $postObj = new Post;
         
         $metadata = [];
-        $post = $postObj->with('user')->select(['posts.id', 'title', 'body', 'username', 'created_at'])->where('slug', '=', $slug)->first();
+        $post = $postObj->with('user')->where('slug', '=', $slug)->first();
 
-        //dd($post);
+       // dd($post);
 
         if($post){
             $metadata['title'] = $post->title;
@@ -75,6 +75,15 @@ class PostController {
 
         View::render('post/single.php', ['post'=>$post, 'metadata' => $metadata]);
        // die;
+    }
+
+    public function getPostsByUser(){
+
+
+        $userObj = new \App\Models\User;
+        $posts = $userObj->with('posts')->where('users.id', '=', 227)->get();
+        dd($posts);
+
     }
 
 }
